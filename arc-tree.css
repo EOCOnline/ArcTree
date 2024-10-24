@@ -1,0 +1,243 @@
+/* Thx to https://codepen.io/bisserof/pen/nrMveb */
+:root {
+  --treeCurves: #777;
+  --objectColor: #3625b9;
+  --tree-ball-collapsed-color: black;
+  --tree-ball-expanded-color: black;
+}
+
+#Tree {
+  padding: 10px;
+  border: 1px solid #7c7c7c;
+  border-radius: 0.3em;
+  margin: 20px;
+  font-family: sans-serif;
+}
+
+/* Tree Options */
+#TreeOptions {
+  padding: 15px;
+  max-width: 600px;
+  min-width: 180px;
+  background-color: #f3f2f2;
+  border-radius: 0.3em;
+  border: #505050 1px solid;
+}
+
+#TreeOptions div {
+  font-size: large;
+  font-weight: bold;
+}
+
+#TreeOptions input {
+  margin: 5px;
+  background-color: rgb(168, 168, 168);
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-weight: 600;
+  line-height: 1.3rem;
+  padding: 0.25rem 1.2rem;
+  text-align: center;
+  text-decoration: none #6b7280 solid;
+  text-decoration-thickness: auto;
+
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  /*width: auto;
+    transition-duration: 2.5s;
+  box-shadow:
+    rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+    rgba(44, 187, 99, 0.15) 0 1px 2px,
+    rgba(44, 187, 99, 0.15) 0 2px 4px,
+    rgba(44, 187, 99, 0.15) 0 4px 8px,
+    rgba(44, 187, 99, 0.15) 0 8px 16px,
+    rgba(44, 187, 99, 0.15) 0 16px 32px;
+    */
+  display: inline-block;
+  transition: all 400ms;
+}
+
+#TreeOptions [type="button"] {
+  color: rgb(255, 255, 255);
+}
+
+#TreeOptions input:hover {
+  box-shadow:
+    rgba(69, 103, 187, 0.35) 0 -25px 18px -14px inset,
+    rgba(69, 103, 187, 0.35) 0 1px 2px,
+    rgba(69, 103, 187, 0.35) 0 2px 4px,
+    rgba(69, 103, 187, 0.35) 0 4px 8px,
+    rgba(69, 103, 187, 0.35) 0 8px 16px,
+    rgba(69, 103, 187, 0.35) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
+  background-color: #374151;
+}
+
+#TreeOptions input:focus {
+  box-shadow: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+#fontSizeLabel {
+  font-size: medium;
+  margin-top: 20px;
+}
+
+#fontSize {
+  width: 220px;
+  margin-top: 50px;
+}
+
+#fontSizeValue {
+  width: 2em;
+  display: inline-block;
+  /*background-color: #e5e5e5;
+  border: #aaa 1px solid;*/
+  padding: 2px;
+}
+
+#arcTreeFile {
+  margin: 10px 5px;
+}
+
+/* Core Tree Styles */
+.object {
+  color: var(--objectColor);
+}
+
+.tree {
+  margin: 0px;
+  padding: 20px;
+  border: 1px solid #a6a6a6;
+  border-radius: 0.3em;
+}
+
+.tree ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tree input {
+  position: absolute;
+  clip-path: inset(0 0 0 0);
+}
+
+.tree input ~ ul {
+  display: none;
+}
+
+.tree input:checked ~ ul {
+  display: block;
+}
+
+/* Tree rows */
+.tree li {
+  line-height: 1.2;
+  position: relative;
+  padding: 0 0 1em 1em;
+}
+
+.tree ul li {
+  padding: 1em 0 0 1em;
+}
+
+.tree > li:last-child {
+  padding-bottom: 0;
+}
+
+/* Tree labels */
+.tree_label {
+  position: relative;
+  display: inline-block;
+  background: #fff;
+}
+
+label.tree_label {
+  cursor: pointer;
+}
+
+label.tree_label:hover {
+  color: #666;
+}
+
+/* Tree expanded icon */
+label.tree_label:before {
+  background: var(--tree-ball-expanded-color);
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  float: left;
+  margin: 0 1em 0 -2em;
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+  content: "+";
+  text-align: center;
+  line-height: 0.9em;
+}
+
+/* Tree collapsed icon */
+:checked ~ label.tree_label:before {
+  content: "–";
+  background: var(--tree-ball-collapsed-color);
+}
+
+/* Tree branches */
+.tree li:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -0.5em;
+  display: block;
+  width: 0;
+  border-left: 1px solid var(--treeCurves);
+  content: "";
+  /* background-color: #f3dd37; */
+}
+
+.tree_label:after {
+  position: absolute;
+  top: 0;
+  left: -1.5em;
+  display: block;
+  height: 0.5em;
+  width: 1em;
+  border-bottom: 1px solid var(--treeCurves); /* line extending right to the child, at child level */
+  border-left: 1px solid var(--treeCurves); /* vertical segment at bottom of the drop & curving into above lines */
+  border-radius: 0 0 0 0.3em;
+  content: "";
+  /* background-color: #48c1fe; */
+}
+
+label.tree_label:after {
+  border-bottom: 0;
+}
+
+:checked ~ label.tree_label:after {
+  border-radius: 0 0.3em 0 0;
+  border-top: 1px solid var(--treeCurves); /* line extending right from + - marker */
+  border-right: 1px solid var(--treeCurves); /* initial drop, from above line */
+  border-bottom: 0;
+  border-left: 0;
+  bottom: 0;
+  top: 0.5em;
+  height: auto;
+}
+
+.tree li:last-child:before {
+  height: 1em;
+  bottom: auto;
+}
+
+.tree > li:last-child:before {
+  display: none;
+}

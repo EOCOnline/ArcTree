@@ -1,0 +1,48 @@
+{
+  "title": "FEMA.Gov Home",
+  "url": "/",
+  "meta": "FEMA Home",
+  "children": [
+    {
+      "title": "ES",
+      "url": "/es",
+      "meta": "Spanish",
+      "children": [
+        {
+          "title": "Emergency Managers",
+          "url": "/emergency-managers",
+          "meta": "Emergency Manager information in Spanish",
+          "children": [
+            {
+              "title": "Tools for Practitioners (es)",
+              "url": "/practitioners",
+              "meta": "Tools for Practitioners in Spanish"
+            },
+            {
+              "title": "Tools for Politicians (es)",
+              "url": "/politicians",
+              "meta": "Tools for Politicians in Spanish"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Emergency Managers",
+      "url": "/emergency-managers",
+      "meta": "Emergency Manager information",
+      "children": [
+        {
+          "title": "Tools for Practitioners (en)",
+          "url": "/practitioners",
+          "meta": "Tools for Practitioners"
+        },
+        {
+          "title": "Tools for Politicians (en)",
+          "url": "/Politicians",
+          "meta": "Tools for Politicians"
+        }
+      ]
+    }
+  ]
+}
