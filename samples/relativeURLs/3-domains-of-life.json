@@ -1,0 +1,196 @@
+{
+    "title": "Three Domains of Life",
+    "url": "https://en.wikipedia.org/wiki/Three-domain_system/",
+    "meta": "The three-domain system is a taxonomic classification system that groups all cellular life into three domains.",
+    "children": [
+        {
+            "title": "Domain Archaea",
+            "url": "../Archaea",
+            "meta": "Archaea are prokaryotic, with no nuclear membrane, but with biochemistry and RNA markers that are distinct from bacteria. The Archaeans possess unique, ancient evolutionary history for which they are considered some of the oldest species of organisms on Earth, most notably their diverse, exotic metabolisms.",
+            "children": [
+                {
+                    "title": "methanogens",
+                    "url": "../Methanogen",
+                    "meta": "methanogens produce the gas methane",
+                    "children": []
+                },
+                {
+                    "title": "halophiles",
+                    "url": "../Halophile",
+                    "meta": "halophiles live in very salty water",
+                    "children": []
+                },
+                {
+                    "title": "thermoacidophiles",
+                    "url": "../Thermoacidophile",
+                    "meta": "thermoacidophiles thrive in acidic high-temperature water",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "title": "Domain Bacteria",
+            "url": "../Bacteria",
+            "meta": "The Bacteria are also prokaryotic; their domain consists of cells with bacterial rRNA, no nuclear membrane, and whose membranes possess primarily diacyl glycerol diester lipids. Traditionally classified as bacteria, many thrive in the same environments favored by humans, and were the first prokaryotes discovered; they were briefly called the Eubacteria or 'true' bacteria when the Archaea were first recognized as a distinct clade.",
+            "children": [
+                {
+                    "title": "Cyanobacteria",
+                    "url": "../Cyanobacteria",
+                    "meta": "Cyanobacteria are photosynthesizing bacteria that are related to the chloroplasts of eukaryotic plants and algae",
+                    "children": []
+                },
+                {
+                    "title": "Spirochaetota",
+                    "url": "../Spirochaetota",
+                    "meta": "Spirochaetota are gram-negative bacteria that include those causing syphilis and Lyme disease",
+                    "children": []
+                },
+                {
+                    "title": "Actinomycetota",
+                    "url": "../Actinomycetota",
+                    "meta": "Actinomycetota are gram-positive bacteria including Bifidobacterium animalis which is present in the human large intestine",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "title": "Domain Eukarya",
+            "url": "../Eukaryota",
+            "meta": "Eukaryota are organisms whose cells contain a membrane-bound nucleus. They include many large single-celled organisms and all known non-microscopic organisms.",
+            "children": [
+                {
+                    "title": "Holomycota",
+                    "url": "../Holomycota",
+                    "meta": "Holomycota – mushrooms and allies",
+                    "children": [
+                        {
+                            "title": "Cristidiscoidea",
+                            "url": "../Cristidiscoidea",
+                            "meta": "Cristidiscoidea",
+                            "children": [
+                                {
+                                    "title": "Fonticulida",
+                                    "url": "../Fonticulida",
+                                    "meta": "Fonticulida",
+                                    "children": []
+                                },
+                                {
+                                    "title": "Nucleariida",
+                                    "url": "../Nucleariid",
+                                    "meta": "Nucleariida",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Fungi",
+                            "url": "../Fungi",
+                            "meta": "Fungi/Opisthosporidia",
+                            "children": [
+                                {
+                                    "title": "BCG2",
+                                    "url": "https://en.wikipedia.org/w/index.php?title=BCG2",
+                                    "meta": "BCG2",
+                                    "children": []
+                                },
+                                {
+                                    "title": "Phytophagea",
+                                    "url": "https://en.wikipedia.org/w/index.php?title=Phytophagea",
+                                    "meta": "Phytophagea",
+                                    "children": [
+                                        {
+                                            "title": "True Fungi",
+                                            "url": "https://en.wikipedia.org/w/index.php?title=Eumycota_(clade)",
+                                            "meta": "True Fungi",
+                                            "children": []
+                                        },
+                                        {
+                                            "title": "Aphelida",
+                                            "url": "../Aphelida",
+                                            "meta": "Aphelida",
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": "BCG1",
+                                    "url": "https://en.wikipedia.org/w/index.php?title=BCG1",
+                                    "meta": "BCG1",
+                                    "children": []
+                                },
+                                {
+                                    "title": "Rozellomyceta/Cryptomycota/Opisthophagea",
+                                    "url": "../Rozellomyceta",
+                                    "meta": "Rozellomyceta/Cryptomycota/Opisthophagea",
+                                    "children": [
+                                        {
+                                            "title": "Rozella",
+                                            "url": "../Rozella",
+                                            "meta": "Rozella",
+                                            "children": []
+                                        },
+                                        {
+                                            "title": "Namako-37",
+                                            "url": "https://en.wikipedia.org/w/index.php?title=Namako-37",
+                                            "meta": "Namako-37",
+                                            "children": []
+                                        },
+                                        {
+                                            "title": "Microsporidia",
+                                            "url": "../Microsporidia",
+                                            "meta": "Microsporidia",
+                                            "children": [
+                                                {
+                                                    "title": "Metchnikovellea",
+                                                    "url": "../Metchnikovellea",
+                                                    "meta": "Metchnikovellea",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "title": "Microsporea",
+                                                    "url": "../Microsporea",
+                                                    "meta": "Microsporea",
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Viridiplantae",
+                            "url": "../Viridiplantae",
+                            "meta": "Viridiplantae – green plants",
+                            "children": []
+                        },
+                        {
+                            "title": "Holozoa",
+                            "url": "../Holozoa",
+                            "meta": "Holozoa – animals and allies",
+                            "children": []
+                        },
+                        {
+                            "title": "Stramenopiles",
+                            "url": "../Stramenopile",
+                            "meta": "Stramenopiles – includes brown algae",
+                            "children": []
+                        },
+                        {
+                            "title": "Amoebozoa",
+                            "url": "../Amoebozoa",
+                            "meta": "Amoebozoa – solitary and social amoebae",
+                            "children": []
+                        },
+                        {
+                            "title": "Discoba",
+                            "url": "../Discoba",
+                            "meta": "Discoba – includes euglenoids",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

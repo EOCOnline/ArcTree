@@ -3,7 +3,7 @@
 > Create nicely formatted unordered list with arcs from JSON files with
 > expand/collapse options &amp; variable font size.
 
-![ArcTree](ArcTree.png)
+![ArcTree](imgs/ArcTree.png)
 
 ## Introduction to ArcTree
 
@@ -14,7 +14,7 @@ HTML tree with nice arcs and collapsible nodes.
 
 There are also some options at the top (if shown the the user) that allows
 collapsing or expanding the whole tree:
-![Options Dialog for ArcTree](ArcTreeOptions.png)
+![Options Dialog for ArcTree](imgs/ArcTreeOptions.png)
 
 - **Collapse Leafs** will temporarily hide list nodes which have a blank
   children node, i.e., `children:[]`. If the `children` node is missing, things
@@ -24,13 +24,14 @@ collapsing or expanding the whole tree:
   to gradually expand only the nodes they wish.
 - **Expand Tree** expands (opens) all nodes in the tree, allowing users to
   selectively collapse any nodes they don't wish taking up visible space
-- **Font Size** changes the font size between 0.5 on up to 5.0 in 0.5
-  increments.
+- **Font Size** changes the font size (in em units) between 0.5 em on up to 5.0
+  em in 0.5 increments.
 - **Browse** button allows selecting a JSON file formatted as shown above. Upon
   being selected, any existing tree is cleared and rebuilt.
-- **Relative URLs** allows users to express whether their json file provides
-  relative/incremental URLs or full/complete URLs. If changed, any existing tree
-  is cleared and if a file has previously been selected, the tree is rebuilt.
+- **URLs: Relative/Full** allows users to express whether their json file
+  provides relative/incremental URLs or full/complete URLs. If changed, any
+  existing tree is cleared and if a file has previously been selected, the tree
+  is rebuilt.
 
 ## Formatting
 
@@ -64,9 +65,13 @@ JSON files are expected to be formatted as:
 }
 ```
 
+- Try https://duckduckgo.com/?q=json+validator as a nice way to spot formatting
+  errors.
 - URLs can be relative/incremental to their parent or specified completely, as
   noted in the Options section above.
-- BUG: Currently the base URL is hardcoded in the `arc-tree.js` file! Search for
+- Only the initial call to `buildArcTree()` should ignore the optional URL
+  value. If so, the first url in the JSON file will be automatically selected as
+  the is hardcoded in the `arc-tree.js` file! Search for
   `baseUrl = "https:\\fema.gov"` in the function `fileChange()` & manually
   change this for your situation.
 - If the `children` node is missing, the tree will be built, but they won't be

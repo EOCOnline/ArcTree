@@ -1,0 +1,67 @@
+{
+    "title": "Tree Of Life",
+    "url": "https://onezoom.org/life/",
+    "meta": "The OneZoom Tree of Life shows how all life on Earth is related.",
+    "children": [
+        {
+            "title": "Human",
+            "url": "@=770315",
+            "meta": "Human",
+            "children": []
+        },
+        {
+            "title": "Carnivorans",
+            "url": "@=44565",
+            "meta": "Carnivorans",
+            "children": []
+        },
+        {
+            "title": "Frogs and toads",
+            "url": "@=991547",
+            "meta": "Frogs and toads",
+            "children": []
+        },
+        {
+            "title": "Orchids",
+            "url": "@=568878",
+            "meta": "Orchids",
+            "children": []
+        },
+        {
+            "title": "Owls, barn owls",
+            "url": "@=1028829",
+            "meta": "Owls, barn owls",
+            "children": []
+        },
+        {
+            "title": "Butterflies and moths",
+            "url": "@=965954",
+            "meta": "Butterflies and moths",
+            "children": []
+        },
+        {
+            "title": "Grey wolf (and domestic dog)",
+            "url": "@=247341",
+            "meta": "Grey wolf (and domestic dog)",
+            "children": []
+        },
+        {
+            "title": "Water-lilies",
+            "url": "@=583541",
+            "meta": "Water-lilies",
+            "children": []
+        },
+        {
+            "title": "Octopods",
+            "url": "@=478542",
+            "meta": "Octopods",
+            "children": []
+        },
+        {
+            "title": "Parrots",
+            "url": "@=1020133",
+            "meta": "Parrots",
+            "children": []
+        }
+    ]
+}

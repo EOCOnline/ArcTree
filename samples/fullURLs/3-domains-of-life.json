@@ -1,0 +1,196 @@
+{
+    "title": "Three Domains of Life",
+    "url": "https://en.wikipedia.org/wiki/Three-domain_system",
+    "meta": "The three-domain system is a taxonomic classification system that groups all cellular life into three domains.",
+    "children": [
+        {
+            "title": "Domain Archaea",
+            "url": "https://en.wikipedia.org/wiki/Archaea",
+            "meta": "Archaea are prokaryotic, with no nuclear membrane, but with biochemistry and RNA markers that are distinct from bacteria. The Archaeans possess unique, ancient evolutionary history for which they are considered some of the oldest species of organisms on Earth, most notably their diverse, exotic metabolisms.",
+            "children": [
+                {
+                    "title": "methanogens",
+                    "url": "https://en.wikipedia.org/wiki/Methanogen",
+                    "meta": "methanogens produce the gas methane",
+                    "children": []
+                },
+                {
+                    "title": "halophiles",
+                    "url": "https://en.wikipedia.org/wiki/Halophile",
+                    "meta": "halophiles live in very salty water",
+                    "children": []
+                },
+                {
+                    "title": "thermoacidophiles",
+                    "url": "https://en.wikipedia.org/wiki/Thermoacidophile",
+                    "meta": "thermoacidophiles thrive in acidic high-temperature water",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "title": "Domain Bacteria",
+            "url": "https://en.wikipedia.org/wiki/Bacteria",
+            "meta": "The Bacteria are also prokaryotic; their domain consists of cells with bacterial rRNA, no nuclear membrane, and whose membranes possess primarily diacyl glycerol diester lipids. Traditionally classified as bacteria, many thrive in the same environments favored by humans, and were the first prokaryotes discovered; they were briefly called the Eubacteria or 'true' bacteria when the Archaea were first recognized as a distinct clade.",
+            "children": [
+                {
+                    "title": "Cyanobacteria",
+                    "url": "https://en.wikipedia.org/wiki/Cyanobacteria",
+                    "meta": "Cyanobacteria are photosynthesizing bacteria that are related to the chloroplasts of eukaryotic plants and algae",
+                    "children": []
+                },
+                {
+                    "title": "Spirochaetota",
+                    "url": "https://en.wikipedia.org/wiki/Spirochaetota",
+                    "meta": "Spirochaetota are gram-negative bacteria that include those causing syphilis and Lyme disease",
+                    "children": []
+                },
+                {
+                    "title": "Actinomycetota",
+                    "url": "https://en.wikipedia.org/wiki/Actinomycetota",
+                    "meta": "Actinomycetota are gram-positive bacteria including Bifidobacterium animalis which is present in the human large intestine",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "title": "Domain Eukarya",
+            "url": "https://en.wikipedia.org/wiki/Eukaryota",
+            "meta": "Eukaryota are organisms whose cells contain a membrane-bound nucleus. They include many large single-celled organisms and all known non-microscopic organisms.",
+            "children": [
+                {
+                    "title": "Holomycota",
+                    "url": "https://en.wikipedia.org/wiki/Holomycota",
+                    "meta": "Holomycota – mushrooms and allies",
+                    "children": [
+                        {
+                            "title": "Cristidiscoidea",
+                            "url": "https://en.wikipedia.org/wiki/Cristidiscoidea",
+                            "meta": "Cristidiscoidea",
+                            "children": [
+                                {
+                                    "title": "Fonticulida",
+                                    "url": "https://en.wikipedia.org/wiki/Fonticulida",
+                                    "meta": "Fonticulida",
+                                    "children": []
+                                },
+                                {
+                                    "title": "Nucleariida",
+                                    "url": "https://en.wikipedia.org/wiki/Nucleariid",
+                                    "meta": "Nucleariida",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Fungi",
+                            "url": "https://en.wikipedia.org/wiki/Fungi",
+                            "meta": "Fungi/Opisthosporidia",
+                            "children": [
+                                {
+                                    "title": "BCG2",
+                                    "url": "https://en.wikipedia.org/w/index.php?title=BCG2",
+                                    "meta": "BCG2",
+                                    "children": []
+                                },
+                                {
+                                    "title": "Phytophagea",
+                                    "url": "https://en.wikipedia.org/w/index.php?title=Phytophagea",
+                                    "meta": "Phytophagea",
+                                    "children": [
+                                        {
+                                            "title": "True Fungi",
+                                            "url": "https://en.wikipedia.org/w/index.php?title=Eumycota_(clade)",
+                                            "meta": "True Fungi",
+                                            "children": []
+                                        },
+                                        {
+                                            "title": "Aphelida",
+                                            "url": "https://en.wikipedia.org/wiki/Aphelida",
+                                            "meta": "Aphelida",
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": "BCG1",
+                                    "url": "https://en.wikipedia.org/w/index.php?title=BCG1",
+                                    "meta": "BCG1",
+                                    "children": []
+                                },
+                                {
+                                    "title": "Rozellomyceta/Cryptomycota/Opisthophagea",
+                                    "url": "https://en.wikipedia.org/wiki/Rozellomyceta",
+                                    "meta": "Rozellomyceta/Cryptomycota/Opisthophagea",
+                                    "children": [
+                                        {
+                                            "title": "Rozella",
+                                            "url": "https://en.wikipedia.org/wiki/Rozella",
+                                            "meta": "Rozella",
+                                            "children": []
+                                        },
+                                        {
+                                            "title": "Namako-37",
+                                            "url": "https://en.wikipedia.org/w/index.php?title=Namako-37",
+                                            "meta": "Namako-37",
+                                            "children": []
+                                        },
+                                        {
+                                            "title": "Microsporidia",
+                                            "url": "https://en.wikipedia.org/wiki/Microsporidia",
+                                            "meta": "Microsporidia",
+                                            "children": [
+                                                {
+                                                    "title": "Metchnikovellea",
+                                                    "url": "https://en.wikipedia.org/wiki/Metchnikovellea",
+                                                    "meta": "Metchnikovellea",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "title": "Microsporea",
+                                                    "url": "https://en.wikipedia.org/wiki/Microsporea",
+                                                    "meta": "Microsporea",
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Viridiplantae",
+                            "url": "https://en.wikipedia.org/wiki/Viridiplantae",
+                            "meta": "Viridiplantae – green plants",
+                            "children": []
+                        },
+                        {
+                            "title": "Holozoa",
+                            "url": "https://en.wikipedia.org/wiki/Holozoa",
+                            "meta": "Holozoa – animals and allies",
+                            "children": []
+                        },
+                        {
+                            "title": "Stramenopiles",
+                            "url": "https://en.wikipedia.org/wiki/Stramenopile",
+                            "meta": "Stramenopiles – includes brown algae",
+                            "children": []
+                        },
+                        {
+                            "title": "Amoebozoa",
+                            "url": "https://en.wikipedia.org/wiki/Amoebozoa",
+                            "meta": "Amoebozoa – solitary and social amoebae",
+                            "children": []
+                        },
+                        {
+                            "title": "Discoba",
+                            "url": "https://en.wikipedia.org/wiki/Discoba",
+                            "meta": "Discoba – includes euglenoids",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

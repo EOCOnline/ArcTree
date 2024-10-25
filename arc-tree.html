@@ -67,8 +67,8 @@
         </div>
       </div>
 
-      <label>
-        Select a JSON file to view:
+      <label title="Select a JSON file to view">
+        <span id="jsonFile">JSON file:</span>
         <input
           type="file"
           onChange="fileChange(this.files[0])"
@@ -76,14 +76,37 @@
           id="arcTreeFile"
         />
       </label>
-      <label title="Switch between relative/incremental or full/complete URLs">
+      <!-- 
+        <label title="Switch between relative/incremental or full/complete URLs">
+          <input
+            type="checkbox"
+            onChange="relativeUrls(this.checked)"
+            id="arcTreeUrl"
+            checked
+          />
+          <span id="arcTreeUrlSpan">Relative URLs</span>
+        </label>
+      -->
+      <label title="File uses: relative/incremental or full/complete URLs">
+        <span id="relativeRadio"> &nbsp; URLs: </span>
         <input
-          type="checkbox"
-          onChange="relativeUrls(this.checked)"
-          id="arcTreeUrl"
+          type="radio"
+          id="relative"
+          name="arcTreeUrl"
+          value="Relative"
           checked
+          onchange="relativeUrls(true)"
         />
-        <span id="arcTreeUrlSpan">Relative URLs</span>
+        <label for="relative">Relative &nbsp; </label>
+
+        <input
+          type="radio"
+          id="full"
+          name="arcTreeUrl"
+          value="Full"
+          onchange="relativeUrls(false)"
+        />
+        <label for="full">Full</label>
       </label>
 
       <ul id="unorderedArcTree" class="tree"></ul>
