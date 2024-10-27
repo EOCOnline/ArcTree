@@ -226,7 +226,7 @@ function buildArcTree(obj, treeElement, url = "") {
 
   let childUrl = "";
   for (let key in obj) {
-    //if (verbose) console.log("processing: " + i.toString());
+    if (verbose) console.log("processing: " + key.toString());
 
     if (obj[key] instanceof Array) {
 
@@ -241,6 +241,7 @@ function buildArcTree(obj, treeElement, url = "") {
     }
 
     else if (obj[key] instanceof Object) {
+      childUrl = url;
       if (verbose) console.log("Skipping Object Wrapper: " + key);
     }
 
@@ -253,6 +254,7 @@ function buildArcTree(obj, treeElement, url = "") {
 
         case "url":
           // autodetect whether json is using relative or full urls
+          console.error("Child URL: '" + childUrl + "' url: '" + url + "'; has http: " + obj[key].startsWith("http"));
           if (obj[key].startsWith("http")) {
             childUrl = obj[key];
           } else {
@@ -317,7 +319,7 @@ function buildArcTree(obj, treeElement, url = "") {
       let newUL = treeElement;
       if (obj[key] instanceof Array) {
         newUL = document.createElement('ul');
-        // newUL.className = "array";
+        // newUL.className = "array"; // or branch?
         treeElement.appendChild(newUL);
       } else if (obj[key] instanceof Object) {
         // no need to create a new UL for non-arrays
@@ -327,10 +329,10 @@ function buildArcTree(obj, treeElement, url = "") {
       if (verbose) console.group("children of " + key);
       buildArcTree(obj[key], newUL, childUrl);
       if (verbose) console.groupEnd();
+
       childUrl = url;
     }
-  }
-
+  } // continue to loop thru any remaining keys
 }
 
 // NOTE: UNUSED!
