@@ -79,7 +79,7 @@ async function readJSONFile(file) {
 async function fileChange(file) {
   readJSONFile(file).then(
     json => {
-      console.log("%c" + "\n================\nRead new Json file: " + file.name + " with " + file.size + " char (" + (file.size / 1024).toFixed(1) + " KB), assuming " + (relativeUrlsBool ? "relative" : "full") + " URLS", "color:maroon;font-weight:bold;");
+      console.log("%c" + "\n================\nRead new Json file: " + file.name + " with " + file.size + " char (" + (file.size / 1024).toFixed(1) + " KB)", "color:maroon;font-weight:bold;");
       if (!validateJson(json)) {
         console.error("Invalid JSON: " + json);
         alert("Invalid JSON: " + json);
@@ -189,7 +189,6 @@ function uploadJson() {
 
 /// Tree Creation functionality =====================
 let expandedByDefault = true;
-let relativeUrlsBool = true; // If true, append child URLs to parent URL
 let listItemHTML = "";
 let listLog = ""; // For debugging, used to put each JSON node (with multiple keys) onto a single line
 
@@ -199,22 +198,12 @@ function clearArcTree(treeElement) {
   listLog = "";
 }
 
-/// Allow for JSON objects with relative/partial/incremental or complete/full URLs
-function relativeUrls(checked) {
-  relativeUrlsBool = checked;
-  if (verbose) console.log("relativeUrls: " + relativeUrlsBool);
-  clearArcTree(document.getElementById('unorderedArcTree'));
-  if (document.getElementById("arcTreeFile").value) {
-    fileChange(document.getElementById('arcTreeFile').files[0]);
-  }
-}
-
 /// <summary>
-/// Recurse through an 'o' JSON object & build up an HTML unordered list item (& listLog for debugging)
+/// Recurse through an 'obj' JSON object & build up an HTML unordered list item (& listLog for debugging)
 /// Parameters:
-/// 'o' is the JSON object to be processed, of the following form:
+/// 'obj' is the JSON object to be processed, of the following form:
 /***
-      o = {
+      obj = {
         "title": "title of web page",
         "url": "relative url of web page",
         "meta": "web page description",
@@ -230,11 +219,12 @@ function relativeUrls(checked) {
 /// 'url' is this this segment of the tree's full or cumulative (N.B., see above option) url.
 ///   Initial url should be blank (""): the code pulls the base/home URL from the JSON.
 /// </summary>
-let childUrl = "";
+
 
 function buildArcTree(obj, treeElement, url = "") {
   if (verbose) console.log("%c" + "buildArcTree: " + obj?.toString() + " url: '" + url + "'", "color:DarkOrchid;font-weight:bold;");
 
+  let childUrl = "";
   for (let key in obj) {
     //if (verbose) console.log("processing: " + i.toString());
 
@@ -262,13 +252,14 @@ function buildArcTree(obj, treeElement, url = "") {
         case "title": listItemHTML += "<b>" + obj[key] + "</b>"; break;
 
         case "url":
-          if (relativeUrlsBool) {
-            childUrl = url + obj[key];
-          } else {
+          // autodetect whether json is using relative or full urls
+          if (obj[key].startsWith("http")) {
             childUrl = obj[key];
+          } else {
+            childUrl = url + obj[key];
           }
           if (verbose) console.log("Child URL: " + childUrl + ";");
-          listLog += "Child URL: " + childUrl + "; relativeUrlsBool: " + relativeUrlsBool + ";  ";
+          listLog += "Child URL: " + childUrl + ";";
           listItemHTML += " (<a href='" + childUrl + "' target='_blank' rel='external' >" + childUrl + "</a>): ";
           break;
 
@@ -330,7 +321,7 @@ function buildArcTree(obj, treeElement, url = "") {
         treeElement.appendChild(newUL);
       } else if (obj[key] instanceof Object) {
         // no need to create a new UL for non-arrays
-        //newUL = treeElement;
+        // newUL = treeElement;
       }
 
       if (verbose) console.group("children of " + key);

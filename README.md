@@ -1,6 +1,6 @@
 # ArcTree
 
-> Create nicely formatted unordered list with arcs from JSON files with
+> Create nicely formatted, unordered list with arcs from JSON files with
 > expand/collapse options &amp; variable font size.
 
 ![ArcTree](imgs/ArcTree.png)
@@ -28,10 +28,6 @@ collapsing or expanding the whole tree:
   em in 0.5 increments.
 - **Browse** button allows selecting a JSON file formatted as shown above. Upon
   being selected, any existing tree is cleared and rebuilt.
-- **URLs: Relative/Full** allows users to express whether their json file
-  provides relative/incremental URLs or full/complete URLs. If changed, any
-  existing tree is cleared and if a file has previously been selected, the tree
-  is rebuilt.
 
 ## Formatting
 
@@ -46,41 +42,43 @@ JSON files are expected to be formatted as:
 ```JSON
 {
     "title": "web page title",
-    "url": "web page url",
+    "url": "https://www.sample.com",
     "meta": "web page description",
     "children": [
         {
             "title": "child page title",
-            "url": "child page url",
+            "url": "/1st-child",
             "meta": "child page description",
             "children": [{...}, {...}]
         },
         {
-            "title": "child page title",
-            "url": "child page url",
-            "meta": "child page description",
+            "title": "another child page title",
+            "url": "/2nd-child",
+            "meta": "another child page description",
             "children": []
         }
     ]
 }
 ```
 
+- URLs can be relative/incremental to their parent or fully-specified/complete
+  URLs. If a url begins with "http", it is assumed to be a full url, otherwise
+  the parent url will be prepended.
 - Try https://duckduckgo.com/?q=json+validator as a nice way to spot formatting
   errors.
-- URLs can be relative/incremental to their parent or specified completely, as
-  noted in the Options section above.
 - Only the initial call to `buildArcTree()` should ignore the optional URL
   value. If so, the first url in the JSON file will be automatically selected as
   the is hardcoded in the `arc-tree.js` file! Search for
   `baseUrl = "https:\\fema.gov"` in the function `fileChange()` & manually
   change this for your situation.
-- If the `children` node is missing, the tree will be built, but they won't be
-  considered leafs & won't be collapsed if the user clicks the _Collapse Leafs_
-  button.
+- The `children` node is essential, but can be an empty array (i.e., a leaf):
+  `"children"=[]`
 - Additional attributes (akin to "title", "meta", or "url") can be included for
   each node, but will be denoted with "[Unknown node (" in the tree display.
   Adding new cases to the `switch` statement in `function buildArcTree` in the
-  `arc-tree.js` file should be pretty trivial though.
+  `arc-tree.js` file should be pretty trivial though. See the code comment.
+- Adding additional arrays will require some coding, but the current code should
+  provide some hints to make it 'fairly' painless.
 - When opened, JSON files are validated just by seeing they have success with
   JSON.parse currently. In the future we may enable AJX validation which is more
   sophisticated. Read more about it at: https://www.npmjs.com/package/ajv.
@@ -90,7 +88,7 @@ JSON files are expected to be formatted as:
 - By default, the `arc-tree.js` file has `let verbose = false;` at the top.
   Change this to `true` if you wish to track output and see errors, warnings and
   verbose information. These can be viewed by opening any browser's developers
-  tools(F12 by convention) and then it's 'console window'.
+  tools (`F12` by convention) and then it's 'console window'.
 
 ## License & Copyright
 
@@ -102,4 +100,4 @@ arcs! Their original sample provided the inspiration for this project.
 
 ©2024, https://eoc.online
 
-Credit for reuse of this is always appreciated!
+Credit for reuse of this code is always appreciated!

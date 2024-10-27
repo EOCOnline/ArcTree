@@ -76,38 +76,6 @@
           id="arcTreeFile"
         />
       </label>
-      <!-- 
-        <label title="Switch between relative/incremental or full/complete URLs">
-          <input
-            type="checkbox"
-            onChange="relativeUrls(this.checked)"
-            id="arcTreeUrl"
-            checked
-          />
-          <span id="arcTreeUrlSpan">Relative URLs</span>
-        </label>
-      -->
-      <label title="File uses: relative/incremental or full/complete URLs">
-        <span id="relativeRadio"> &nbsp; URLs: </span>
-        <input
-          type="radio"
-          id="relative"
-          name="arcTreeUrl"
-          value="Relative"
-          checked
-          onchange="relativeUrls(true)"
-        />
-        <label for="relative">Relative &nbsp; </label>
-
-        <input
-          type="radio"
-          id="full"
-          name="arcTreeUrl"
-          value="Full"
-          onchange="relativeUrls(false)"
-        />
-        <label for="full">Full</label>
-      </label>
 
       <ul id="unorderedArcTree" class="tree"></ul>
     </div>
