@@ -79,8 +79,12 @@ async function readJSONFile(file) {
 async function fileChange(file) {
   readJSONFile(file).then(
     json => {
-      if (verbose) console.log("%c\n\n================\nRead new Json file: " + file.name + " with " + json.length + " char (" + json.length / 1024 + " KB), assuming " + relativeUrlsBool ? "relative" : "full" + " URLS", "color:red;font-weight:bold;");
-      validateJson(json);
+      console.log("%c" + "\n================\nRead new Json file: " + file.name + " with " + file.size + " char (" + (file.size / 1024).toFixed(1) + " KB), assuming " + (relativeUrlsBool ? "relative" : "full") + " URLS", "color:maroon;font-weight:bold;");
+      if (!validateJson(json)) {
+        console.error("Invalid JSON: " + json);
+        alert("Invalid JSON: " + json);
+        return;
+      }
       clearArcTree(document.getElementById('unorderedArcTree'));
       buildArcTree(json, document.getElementById('unorderedArcTree'));
     }
@@ -91,12 +95,14 @@ async function fileChange(file) {
 
 function validateJson(json) {
   try {
-    JSON.parse(json);
+    if (typeof json !== 'object' || json === null) {
+      throw new Error("Invalid JSON object");
+    }
   } catch (e) {
     console.error("Invalid JSON: " + e);
     return false;
   }
-  if (verbose) console.log("json validated using JSON.parse")
+  if (verbose) console.log("json validated")
   return true;
 }
 
@@ -107,7 +113,10 @@ function validateJson(json) {
 // Node.js require:
 /*
 const Ajv = require("ajv")
-const ajv = new Ajv() // options can be passed, e.g. {allErrors: true}
+
+let ajvOptions = "";
+if (verbose) ajvOptions = "allErrors: true";
+const ajv = new Ajv(ajvOptions)
  
 const schema = {
   type: "object",
@@ -182,7 +191,7 @@ function uploadJson() {
 let expandedByDefault = true;
 let relativeUrlsBool = true; // If true, append child URLs to parent URL
 let listItemHTML = "";
-let listLog = "";
+let listLog = ""; // For debugging, used to put each JSON node (with multiple keys) onto a single line
 
 function clearArcTree(treeElement) {
   treeElement.innerHTML = '';
@@ -194,7 +203,6 @@ function clearArcTree(treeElement) {
 function relativeUrls(checked) {
   relativeUrlsBool = checked;
   if (verbose) console.log("relativeUrls: " + relativeUrlsBool);
-  //document.getElementById('arcTreeUrlSpan').innerHTML = relativeUrlsBool ? "Relative URLs" : "Full URLs";
   clearArcTree(document.getElementById('unorderedArcTree'));
   if (document.getElementById("arcTreeFile").value) {
     fileChange(document.getElementById('arcTreeFile').files[0]);
@@ -202,7 +210,7 @@ function relativeUrls(checked) {
 }
 
 /// <summary>
-/// Recurse through an 'o' JSON object & build up an HTML unordered list
+/// Recurse through an 'o' JSON object & build up an HTML unordered list item (& listLog for debugging)
 /// Parameters:
 /// 'o' is the JSON object to be processed, of the following form:
 /***
@@ -222,46 +230,66 @@ function relativeUrls(checked) {
 /// 'url' is this this segment of the tree's full or cumulative (N.B., see above option) url.
 ///   Initial url should be blank (""): the code pulls the base/home URL from the JSON.
 /// </summary>
+let childUrl = "";
 
-function buildArcTree(o, treeElement, url = "") {
-  //if (verbose) console.log("buildArcTree: " + o?.toString());
-  for (let i in o) {
-    // if (verbose) console.log("processing: " + i.toString());
-    if (o[i] instanceof Array) {
-      // if (verbose) console.log("got Array");
-      // treeElement.appendChild(document.createComment(i + ": ARRAY"));
+function buildArcTree(obj, treeElement, url = "") {
+  if (verbose) console.log("%c" + "buildArcTree: " + obj?.toString() + " url: '" + url + "'", "color:DarkOrchid;font-weight:bold;");
+
+  for (let key in obj) {
+    //if (verbose) console.log("processing: " + i.toString());
+
+    if (obj[key] instanceof Array) {
+
+      if (key == "children") {
+        if (obj[key].length == 0) {
+          if (verbose) console.log("No children Array");
+        } else {
+          if (verbose) console.log("Got " + Object.keys(obj[key]).length + " children array...");
+        }
+      } else
+        console.warn("Got Unexpected Array: " + obj[key]);
     }
-    else if (o[i] instanceof Object) {
-      // if (verbose) console.log("got Object");
-      // treeElement.appendChild(document.createComment(i + ": OBJECT"));
+
+    else if (obj[key] instanceof Object) {
+      if (verbose) console.log("Skipping Object Wrapper: " + key);
     }
+
     else {
-      if (verbose) console.log(i + ': ' + o[i]);
-      listLog += i + '=' + o[i] + ";  ";
+      if (verbose) console.log("item(" + key + '): ' + obj[key]);
+      listLog += key + '=' + obj[key] + ";  ";
 
-      switch (i) {
-        // Add other JSON nodes below...
-        case "title": listItemHTML += "<b>" + o[i] + "</b>"; break;
+      switch (key) {
+        case "title": listItemHTML += "<b>" + obj[key] + "</b>"; break;
+
         case "url":
           if (relativeUrlsBool) {
-            childUrl = url + o[i];
+            childUrl = url + obj[key];
           } else {
-            childUrl = o[i];
+            childUrl = obj[key];
           }
-          if (verbose) console.log("Child URL: " + childUrl + "; relativeUrlsBool: " + relativeUrlsBool);
+          if (verbose) console.log("Child URL: " + childUrl + ";");
+          listLog += "Child URL: " + childUrl + "; relativeUrlsBool: " + relativeUrlsBool + ";  ";
           listItemHTML += " (<a href='" + childUrl + "' target='_blank' rel='external' >" + childUrl + "</a>): ";
           break;
-        case "meta": listItemHTML += "<i> " + o[i] + "</i>"; break;
-        default: listItemHTML += " [Unknown node (" + i + ")=" + o[i] + "] ";
+
+        case "meta": listItemHTML += "<i> " + obj[key] + "</i>"; break;
+
+        // Add other JSON nodes here...
+
+        default: listItemHTML += " [Unknown key (" + key + ")=" + obj[key] + "] ";
       }
     }
 
-    if (o[i] instanceof Object) {
+    /// Emit HTML list item for this JSON node
+    /// NOTE: assumes that the last JSON key (& only array/object) is "children[...]"
+    if (obj[key] instanceof Object) {
 
       if (listItemHTML != "") {
-        // if (verbose) console.log("=== dump caches!");
+        // Dump caches
+        // or call DumpCaches(obj[key], treeElement, childUrl)???
+        if (verbose) console.log("Emit caches...");
         // Output list item we've been building up before processing children
-        if (verbose) console.log(listLog);
+        if (verbose) console.log("log: " + listLog);
         listLog = "";
 
         let uniqueID = Math.floor(Math.random() * 1000000).toString();
@@ -275,20 +303,20 @@ function buildArcTree(o, treeElement, url = "") {
         let newLabel = document.createElement('label');
         newLabel.htmlFor = "c" + uniqueID;
         newLabel.className = "tree_label";
-        newLabel.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Sanitization is not needed with trusted JSON
+        newLabel.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Assume untrusted JSON
 
         // Or if last leaf (no children), add a leaf class
-        if (Object.keys(o[i]).length == 0) {
+        if (Object.keys(obj[key]).length == 0) {
           newLI.className = "leaf";
           let newSpan = document.createElement('span');
           newSpan.className = "tree_label";
-          newSpan.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Sanitization is not needed with trusted JSON
+          newSpan.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Assume untrusted JSON
           newLI.appendChild(newSpan);
         }
         listItemHTML = "";
         treeElement.appendChild(newLI);
 
-        if (Object.keys(o[i]).length > 0) {
+        if (Object.keys(obj[key]).length > 0) {
           newLI.appendChild(newInput);
           newLI.appendChild(newLabel);
         }
@@ -296,18 +324,58 @@ function buildArcTree(o, treeElement, url = "") {
       }
 
       let newUL = treeElement;
-      if (o[i] instanceof Array) {
+      if (obj[key] instanceof Array) {
         newUL = document.createElement('ul');
         // newUL.className = "array";
         treeElement.appendChild(newUL);
-      } else if (o[i] instanceof Object) {
+      } else if (obj[key] instanceof Object) {
         // no need to create a new UL for non-arrays
         //newUL = treeElement;
       }
 
-      if (verbose) console.group("children of " + i);
-      buildArcTree(o[i], newUL, childUrl);
+      if (verbose) console.group("children of " + key);
+      buildArcTree(obj[key], newUL, childUrl);
       if (verbose) console.groupEnd();
+      childUrl = url;
     }
   }
+
+}
+
+// NOTE: UNUSED!
+function DumpCaches(o, treeElement, childUrl) {
+
+  // if (verbose) console.log("=== dump caches!");
+  // Output list item we've been building up before processing children
+  if (verbose) console.log(listLog);
+  listLog = "";
+
+  let uniqueID = Math.floor(Math.random() * 1000000).toString();
+  let newLI = document.createElement('li');
+
+  let newInput = document.createElement('input');
+  newInput.id = "c" + uniqueID;
+  newInput.type = "checkbox";
+  newInput.checked = expandedByDefault;
+
+  let newLabel = document.createElement('label');
+  newLabel.htmlFor = "c" + uniqueID;
+  newLabel.className = "tree_label";
+  newLabel.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Assume untrusted JSON
+
+  // Or if last leaf (no children), add a leaf class
+  if (Object.keys(o).length == 0) {
+    newLI.className = "leaf";
+    let newSpan = document.createElement('span');
+    newSpan.className = "tree_label";
+    newSpan.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Assume untrusted JSON
+    newLI.appendChild(newSpan);
+  }
+  listItemHTML = "";
+  treeElement.appendChild(newLI);
+  if (Object.keys(o).length > 0) {
+    newLI.appendChild(newInput);
+    newLI.appendChild(newLabel);
+  }
+  treeElement = newLI;
 }

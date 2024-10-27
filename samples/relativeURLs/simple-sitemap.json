@@ -16,12 +16,14 @@
             {
               "title": "Tools for Practitioners (es)",
               "url": "/practitioners",
-              "meta": "Tools for Practitioners in Spanish"
+              "meta": "Tools for Practitioners in Spanish",
+              "children": []
             },
             {
               "title": "Tools for Politicians (es)",
               "url": "/politicians",
-              "meta": "Tools for Politicians in Spanish"
+              "meta": "Tools for Politicians in Spanish",
+              "children": []
             }
           ]
         }
@@ -35,12 +37,14 @@
         {
           "title": "Tools for Practitioners (en)",
           "url": "/practitioners",
-          "meta": "Tools for Practitioners"
+          "meta": "Tools for Practitioners (en)",
+          "children": []
         },
         {
           "title": "Tools for Politicians (en)",
           "url": "/Politicians",
-          "meta": "Tools for Politicians"
+          "meta": "Tools for Politicians",
+          "children": []
         }
       ]
     }
