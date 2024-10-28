@@ -13,8 +13,8 @@
     <script defer src="./purify.min.js"></script>
   </head>
   <body>
-    <div id="Tree">
-      <div id="TreeOptions">
+    <div id="arc-tree-container">
+      <div id="arc-tree-options">
         <div>Tree Options:<br /></div>
         <input
           type="button"
@@ -43,8 +43,8 @@
         />
 
         <div>
-          <label title="Font size in em's" id="fontSizeLabel">
-            Font size: <span id="fontSizeValue"></span> &nbsp;
+          <label title="Font size in em's" id="arc-tree-font-size-label">
+            Font size: <span id="arc-tree-font-size-value"></span> &nbsp;
 
             <input
               type="range"
@@ -52,11 +52,11 @@
               min="0.5"
               value="1"
               max="5"
-              id="fontSize"
-              list="stepList"
+              id="arc-tree-font-size"
+              list="step-list"
               oninput="setFontSize(this)"
             />
-            <datalist id="stepList">
+            <datalist id="step-list">
               <option>1.0</option>
               <option>2.0</option>
               <option>3.0</option>
@@ -68,16 +68,16 @@
       </div>
 
       <label title="Select a JSON file to view">
-        <span id="jsonFile">JSON file:</span>
+        <span id="arc-tree-file-label">JSON file:</span>
         <input
           type="file"
           onChange="fileChange(this.files[0])"
           accept=".json"
-          id="arcTreeFile"
+          id="arc-tree-file"
         />
       </label>
 
-      <ul id="unorderedArcTree" class="tree"></ul>
+      <ul id="unordered-arc-tree" class="arc-tree"></ul>
     </div>
   </body>
 </html>

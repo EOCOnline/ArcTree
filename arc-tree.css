@@ -1,12 +1,11 @@
-/* Thx to https://codepen.io/bisserof/pen/nrMveb */
 :root {
-  --treeCurves: #777;
-  --objectColor: #3625b9;
-  --tree-ball-collapsed-color: black;
-  --tree-ball-expanded-color: black;
+  --arc-tree-curves: #777;
+  --arc-tree-object-color: #3625b9;
+  --arc-tree-ball-collapsed-color: black;
+  --arc-tree-ball-expanded-color: black;
 }
 
-#Tree {
+#arc-tree-container {
   padding: 10px;
   border: 1px solid #7c7c7c;
   border-radius: 0.3em;
@@ -14,8 +13,9 @@
   font-family: sans-serif;
 }
 
+/* ================================= */
 /* Tree Options */
-#TreeOptions {
+#arc-tree-options {
   padding: 15px;
   max-width: 600px;
   min-width: 180px;
@@ -24,12 +24,12 @@
   border: #505050 1px solid;
 }
 
-#TreeOptions div {
+#arc-tree-options div {
   font-size: large;
   font-weight: bold;
 }
 
-#TreeOptions input {
+#arc-tree-options input {
   margin: 5px;
   background-color: rgb(168, 168, 168);
   border: 1px solid transparent;
@@ -64,11 +64,11 @@
   transition: all 400ms;
 }
 
-#TreeOptions [type="button"] {
+#arc-tree-options [type="button"] {
   color: rgb(255, 255, 255);
 }
 
-#TreeOptions input:hover {
+#arc-tree-options input:hover {
   box-shadow: rgba(69, 103, 187, 0.35) 0 -25px 18px -14px inset,
     rgba(69, 103, 187, 0.35) 0 1px 2px, rgba(69, 103, 187, 0.35) 0 2px 4px,
     rgba(69, 103, 187, 0.35) 0 4px 8px, rgba(69, 103, 187, 0.35) 0 8px 16px,
@@ -77,23 +77,23 @@
   background-color: #374151;
 }
 
-#TreeOptions input:focus {
+#arc-tree-options input:focus {
   box-shadow: none;
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 
-#fontSizeLabel {
+#arc-tree-font-size-label {
   font-size: medium;
   margin-top: 20px;
 }
 
-#fontSize {
+#arc-tree-font-size {
   width: 220px;
   margin-top: 50px;
 }
 
-#fontSizeValue {
+#arc-tree-font-size-value {
   width: 2em;
   display: inline-block;
   /*background-color: #e5e5e5;
@@ -101,83 +101,84 @@
   padding: 2px;
 }
 
-#arcTreeFile {
+#arc-tree-file {
   margin: 10px 5px;
 }
 
-#relativeRadio {
-  margin: 10px 5px;
+#arc-tree-file-label {
   font-weight: 700;
 }
 
-#jsonFile {
-  font-weight: 700;
-}
-
+/* ================================= */
+/* Thx to https://codepen.io/bisserof/pen/nrMveb */
 /* Core Tree Styles */
-.object {
-  color: var(--objectColor);
+.arc-object {
+  color: var(--arc-tree-object-color);
 }
 
-.tree {
+.arc-tree {
   margin: 0px;
   padding: 20px;
   border: 1px solid #a6a6a6;
   border-radius: 0.3em;
 }
 
-.tree ul {
+.arc-tree ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.tree input {
+.arc-tree li {
+  list-style-type: none;
+}
+
+.arc-tree input {
   position: absolute;
   clip-path: inset(0 0 0 0);
 }
 
-.tree input ~ ul {
+.arc-tree input ~ ul {
   display: none;
 }
 
-.tree input:checked ~ ul {
+.arc-tree input:checked ~ ul {
   display: block;
 }
 
 /* Tree rows */
-.tree li {
+.arc-tree li {
   line-height: 1.2;
   position: relative;
   padding: 0 0 1em 1em;
 }
 
-.tree ul li {
+.arc-tree ul li {
   padding: 1em 0 0 1em;
 }
 
-.tree > li:last-child {
+.arc-tree > li:last-child {
   padding-bottom: 0;
 }
 
 /* Tree labels */
-.tree_label {
+.tree-label {
   position: relative;
   display: inline-block;
   background: #fff;
 }
 
-label.tree_label {
+label.tree-label {
   cursor: pointer;
 }
 
-label.tree_label:hover {
+label.tree-label:hover {
   color: #666;
 }
 
 /* Tree expanded icon */
-label.tree_label:before {
-  background: var(--tree-ball-expanded-color);
+label.tree-label:before {
+  background: var(--arc-tree-ball-expanded-color);
   color: #fff;
   position: relative;
   z-index: 1;
@@ -192,46 +193,46 @@ label.tree_label:before {
 }
 
 /* Tree collapsed icon */
-:checked ~ label.tree_label:before {
+:checked ~ label.tree-label:before {
   content: "–";
-  background: var(--tree-ball-collapsed-color);
+  background: var(--arc-tree-ball-collapsed-color);
 }
 
 /* Tree branches */
-.tree li:before {
+.arc-tree li:before {
   position: absolute;
   top: 0;
   bottom: 0;
   left: -0.5em;
   display: block;
   width: 0;
-  border-left: 1px solid var(--treeCurves);
+  border-left: 1px solid var(--arc-tree-curves);
   content: "";
   /* background-color: #f3dd37; */
 }
 
-.tree_label:after {
+.tree-label:after {
   position: absolute;
   top: 0;
   left: -1.5em;
   display: block;
   height: 0.5em;
   width: 1em;
-  border-bottom: 1px solid var(--treeCurves); /* line extending right to the child, at child level */
-  border-left: 1px solid var(--treeCurves); /* vertical segment at bottom of the drop & curving into above lines */
+  border-bottom: 1px solid var(--arc-tree-curves); /* line extending right to the child, at child level */
+  border-left: 1px solid var(--arc-tree-curves); /* vertical segment at bottom of the drop & curving into above lines */
   border-radius: 0 0 0 0.3em;
   content: "";
   /* background-color: #48c1fe; */
 }
 
-label.tree_label:after {
+label.tree-label:after {
   border-bottom: 0;
 }
 
-:checked ~ label.tree_label:after {
+:checked ~ label.tree-label:after {
   border-radius: 0 0.3em 0 0;
-  border-top: 1px solid var(--treeCurves); /* line extending right from + - marker */
-  border-right: 1px solid var(--treeCurves); /* initial drop, from above line */
+  border-top: 1px solid var(--arc-tree-curves); /* line extending right from + - marker */
+  border-right: 1px solid var(--arc-tree-curves); /* initial drop, from above line */
   border-bottom: 0;
   border-left: 0;
   bottom: 0;
@@ -239,11 +240,11 @@ label.tree_label:after {
   height: auto;
 }
 
-.tree li:last-child:before {
+.arc-tree li:last-child:before {
   height: 1em;
   bottom: auto;
 }
 
-.tree > li:last-child:before {
+.arc-tree > li:last-child:before {
   display: none;
 }

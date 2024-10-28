@@ -64,24 +64,33 @@ JSON files are expected to be formatted as:
 - URLs can be relative/incremental to their parent or fully-specified/complete
   URLs. If a url begins with "http", it is assumed to be a full url, otherwise
   the parent url will be prepended.
+- It should soon be possible to 'jump' up to a none-sequential URLs. For
+  instance from https://www.sample.com/ to https://www.sample.com/child1/child2
+  -- _without going thru https://www.sample.com/child1 first_. We handle this by
+  inserting a dummy list item with the missing intermediate child/parent page,
+  though the website may not have such a page, resulting in potential 404 errors
+  for the 'created' page.
 - Try https://duckduckgo.com/?q=json+validator as a nice way to spot formatting
   errors.
-- Only the initial call to `buildArcTree()` should ignore the optional URL
-  value. If so, the first url in the JSON file will be automatically selected as
-  the is hardcoded in the `arc-tree.js` file! Search for
-  `baseUrl = "https:\\fema.gov"` in the function `fileChange()` & manually
-  change this for your situation.
+- When opened, JSON files are validated just by seeing they have success with
+  JSON.parse currently. In the future we may enable AJX validation which is more
+  sophisticated. Read more about it at: https://www.npmjs.com/package/ajv.
 - The `children` node is essential, but can be an empty array (i.e., a leaf):
   `"children"=[]`
+
+## Programming Notes
+
 - Additional attributes (akin to "title", "meta", or "url") can be included for
   each node, but will be denoted with "[Unknown node (" in the tree display.
   Adding new cases to the `switch` statement in `function buildArcTree` in the
   `arc-tree.js` file should be pretty trivial though. See the code comment.
 - Adding additional arrays will require some coding, but the current code should
   provide some hints to make it 'fairly' painless.
-- When opened, JSON files are validated just by seeing they have success with
-  JSON.parse currently. In the future we may enable AJX validation which is more
-  sophisticated. Read more about it at: https://www.npmjs.com/package/ajv.
+- Only the initial call to `buildArcTree()` should ignore the optional URL
+  value. If so, the first url in the JSON file will be automatically selected as
+  the is hardcoded in the `arc-tree.js` file! Search for
+  `baseUrl = "https:\\fema.gov"` in the function `fileChange()` & manually
+  change this for your situation.
 
 ## Debugging
 

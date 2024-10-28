@@ -5,8 +5,8 @@ const Verbose = 2;
 document.addEventListener("DOMContentLoaded", function () {
   if (Verbose > 1) console.clear();
   //if (Verbose>1) console.log("DOM fully loaded and parsed");
-  setFontSize(document.querySelector("#fontSize"));
-  document.getElementById("arcTreeFile").value = "";
+  setFontSize(document.querySelector("#arc-tree-font-size"));
+  document.getElementById("arc-tree-file").value = "";
 });
 
 
@@ -17,9 +17,9 @@ function setFontSize(el) {
   if (!isNumber(fontSize) || fontSize < 0.5 || fontSize > 5) {
     fontSize = 1;
   }
-  document.querySelector(".tree").style.fontSize = fontSize + 'em';
-  document.querySelector("#fontSizeValue").innerHTML = fontSize;
-  document.querySelector("#fontSize").value = fontSize;
+  document.querySelector(".arc-tree").style.fontSize = fontSize + 'em';
+  document.querySelector("#arc-tree-font-size-value").innerHTML = fontSize;
+  document.querySelector("#arc-tree-font-size").value = fontSize;
 }
 
 function isNumber(n) {
@@ -45,7 +45,7 @@ function showLeafs() {
 }
 
 function collapseTree() {
-  let checkboxes = document.querySelector(".tree").getElementsByTagName("input");
+  let checkboxes = document.querySelector(".arc-tree").getElementsByTagName("input");
   let len = checkboxes.length;
   for (let i = 0; i < len; i++) {
     checkboxes[i].checked = "";
@@ -54,7 +54,7 @@ function collapseTree() {
 }
 
 function expandTree() {
-  let checkboxes = document.querySelector(".tree").getElementsByTagName("input");
+  let checkboxes = document.querySelector(".arc-tree").getElementsByTagName("input");
   let len = checkboxes.length;
   for (let i = 0; i < len; i++) {
     checkboxes[i].checked = "checked";
@@ -85,8 +85,8 @@ async function fileChange(file) {
         alert("Invalid JSON: " + json);
         return;
       }
-      clearArcTree(document.getElementById('unorderedArcTree'));
-      buildArcTree(json, document.getElementById('unorderedArcTree'));
+      clearArcTree(document.getElementById('unordered-arc-tree'));
+      buildArcTree(json, document.getElementById('unordered-arc-tree'));
     }
   ).catch(
     error => console.error("Error reading file: " + error)
@@ -171,14 +171,14 @@ if (!valid) {
  
 /// Unused!
 function downloadJson() {
-  let json = document.getElementById('unorderedArcTree').innerHTML;
+  let json = document.getElementById('unordered-arc-tree').innerHTML;
   let blob = new Blob([json], { type: "text/plain;charset=utf-8" });
   saveAs(blob, "arcTree.json");
 }
  
 /// Unused!
 function uploadJson() {
-  let file = document.getElementById('arcTreeFile').files[0];
+  let file = document.getElementById('arc-tree-file').files[0];
   if (file) {
     fileChange(file);
   }
@@ -216,7 +216,7 @@ function clearArcTree(treeElement) {
       }
 ***/
 /// 'treeElement' is the HTML element to which the unordered list is to be appended
-/// 'url' is this this segment of the tree's full or cumulative (N.B., see above option) url.
+/// 'url' is this this segment of the arc-tree's full or cumulative (N.B., see above option) url.
 ///   Initial url should be blank (""): the code pulls the base/home URL from the JSON.
 /// </summary>
 
@@ -267,9 +267,9 @@ function buildArcTree(obj, treeElement, url = "") {
           let parentParts = url.toLowerCase().split('/');
           let childParts = childUrl.toLowerCase().split('/');
           if (Verbose > 1) console.log("parentParts: " + parentParts + " childParts: " + childParts);
-
+ 
           debugger;
-
+ 
           for (let j = 0; j < childParts.length; j++) {
             if (j >= parentParts.length) {
               continue;
@@ -278,15 +278,15 @@ function buildArcTree(obj, treeElement, url = "") {
               if (Verbose > 1) console.log("Mismatch: " + parentParts[j] + " != " + childParts[j]);
               break;
             }
-
+ 
             for (let i = 0; i < childParts.length; i++) {
               let dummyLI = document.createElement('li');
               dummyLI.className = "dummy";
               treeElement.appendChild(dummyLI);
             }
           }
-
-
+ 
+ 
           for (let j = 0; j < (childParts.length - parentParts.length); j++) {
             // Create a dummy UL for each missing parent part
             let dummyUrl = childParts.slice(0, parentParts.length + j).join('/');
@@ -318,43 +318,7 @@ function buildArcTree(obj, treeElement, url = "") {
 
       if (ListItemHTML != "") {
         // Dump caches
-        DumpCaches(obj[key], treeElement, childUrl);
-        /*
-        if (Verbose>1) console.log("Emit caches...");
-        // Output list item we've been building up before processing children
-        if (verbose) console.log("log: " + listLog);
-        listLog = "";
-
-        let uniqueID = Math.floor(Math.random() * 1000000).toString();
-        let newLI = document.createElement('li');
-
-        let newInput = document.createElement('input');
-        newInput.id = "c" + uniqueID;
-        newInput.type = "checkbox";
-        newInput.checked = expandedByDefault;
-
-        let newLabel = document.createElement('label');
-        newLabel.htmlFor = "c" + uniqueID;
-        newLabel.className = "tree_label";
-        newLabel.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Assume untrusted JSON
-
-        // Or if last leaf (no children), add a leaf class
-        if (Object.keys(obj[key]).length == 0) {
-          newLI.className = "leaf";
-          let newSpan = document.createElement('span');
-          newSpan.className = "tree_label";
-          newSpan.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Assume untrusted JSON
-          newLI.appendChild(newSpan);
-        }
-        listItemHTML = "";
-        treeElement.appendChild(newLI);
-
-        if (Object.keys(obj[key]).length > 0) {
-          newLI.appendChild(newInput);
-          newLI.appendChild(newLabel);
-        }
-        treeElement = newLI;
-        */
+        treeElement = WriteUlListItem(obj[key], treeElement);
       }
 
       let newUL = treeElement;
@@ -365,8 +329,10 @@ function buildArcTree(obj, treeElement, url = "") {
       } else if (obj[key] instanceof Object) {
         // no need to create a new UL for non-arrays
         // newUL = treeElement;
+        // newUL.className = "arc-object";
       }
 
+      // Recurse into children
       if (Verbose) console.group("children of " + key);
       buildArcTree(obj[key], newUL, childUrl);
       if (Verbose) console.groupEnd();
@@ -376,10 +342,14 @@ function buildArcTree(obj, treeElement, url = "") {
   } // continue loop thru any remaining keys
 }
 
-
-function DumpCaches(objKey, treeElement, childUrl) {
-
-  // or call DumpCaches(obj[key], treeElement, childUrl)???
+/// <summary>
+/// Reading from the JSON file gets one bit of info sequentially. 
+/// We want to write a complete block of HTML composed of these bits.
+/// So we have been building up parts of the HTML block while 
+/// iterating though a JSON node, and can now output the entire 
+/// HTML block for that node.
+/// </summary>
+function WriteUlListItem(objKey, treeElement) {
   if (Verbose > 1) console.log("Emit caches...");
   // Output list item we've been building up before processing children
   if (Verbose) console.log("log: " + ListLog);
@@ -395,14 +365,14 @@ function DumpCaches(objKey, treeElement, childUrl) {
 
   let newLabel = document.createElement('label');
   newLabel.htmlFor = "c" + uniqueID;
-  newLabel.className = "tree_label";
+  newLabel.className = "tree-label";
   newLabel.innerHTML = DOMPurify.sanitize(ListItemHTML);  //NOTE: Assume untrusted JSON
 
   // Or if last leaf (no children), add a leaf class
   if (Object.keys(objKey).length == 0) {
     newLI.className = "leaf";
     let newSpan = document.createElement('span');
-    newSpan.className = "tree_label";
+    newSpan.className = "tree-label";
     newSpan.innerHTML = DOMPurify.sanitize(ListItemHTML);  //NOTE: Assume untrusted JSON
     newLI.appendChild(newSpan);
   }
@@ -414,4 +384,5 @@ function DumpCaches(objKey, treeElement, childUrl) {
     newLI.appendChild(newLabel);
   }
   treeElement = newLI;
+  return treeElement;
 }
