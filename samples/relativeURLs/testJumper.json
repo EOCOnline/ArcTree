@@ -1,0 +1,26 @@
+{
+    "title": "FEMA.Gov Home",
+    "url": "https://fema.gov",
+    "meta": "FEMA Home",
+    "children": [
+        {
+            "title": "Emergency Managers",
+            "url": "/emergency-managers",
+            "meta": "Emergency Manager information",
+            "children": [
+                {
+                    "title": "Tools for Practitioners (en)",
+                    "url": "/practitioners",
+                    "meta": "Tools for Practitioners (en)",
+                    "children": []
+                },
+                {
+                    "title": "Tools for Politicians (en)",
+                    "url": "/jumpedURL/Politicians",
+                    "meta": "Tools for Politicians",
+                    "children": []
+                }
+            ]
+        }
+    ]
+}
