@@ -1,11 +1,11 @@
 :root {
-  --arc-tree-curves: #777;
-  --arc-tree-ball-collapsed-color: rgb(1, 108, 90);
-  --arc-tree-ball-expanded-color: rgb(106, 53, 171);
-  --arc-tree-object-color: #3625b9;
+  --arctree-curves: #777;
+  --arctree-ball-collapsed-color: rgb(1, 108, 90);
+  --arctree-ball-expanded-color: rgb(106, 53, 171);
+  --arctree-object-color: #3625b9;
 }
 
-#arc-tree-container {
+#arctree-container {
   padding: 10px;
   border: 1px solid #7c7c7c;
   border-radius: 0.3em;
@@ -15,7 +15,7 @@
 
 /* ================================= */
 /* Tree Options */
-#arc-tree-options {
+#arctree-options {
   padding: 15px;
   max-width: 600px;
   min-width: 180px;
@@ -24,12 +24,12 @@
   border: #505050 1px solid;
 }
 
-#arc-tree-options div {
+#arctree-options div {
   font-size: large;
   font-weight: bold;
 }
 
-#arc-tree-options input {
+#arctree-options input {
   margin: 5px;
   background-color: rgb(168, 168, 168);
   border: 1px solid transparent;
@@ -65,11 +65,11 @@
   transition: all 400ms;
 }
 
-#arc-tree-options [type="button"] {
+#arctree-options [type="button"] {
   color: rgb(255, 255, 255);
 }
 
-#arc-tree-options input:hover {
+#arctree-options input:hover {
   box-shadow: rgba(69, 103, 187, 0.35) 0 -25px 18px -14px inset,
     rgba(69, 103, 187, 0.35) 0 1px 2px, rgba(69, 103, 187, 0.35) 0 2px 4px,
     rgba(69, 103, 187, 0.35) 0 4px 8px, rgba(69, 103, 187, 0.35) 0 8px 16px,
@@ -78,23 +78,23 @@
   background-color: #374151;
 }
 
-#arc-tree-options input:focus {
+#arctree-options input:focus {
   box-shadow: none;
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 
-#arc-tree-font-size-label {
+#arctree-font-size-label {
   font-size: medium;
   margin-top: 20px;
 }
 
-#arc-tree-font-size {
+#arctree-font-size {
   width: 220px;
   margin-top: 50px;
 }
 
-#arc-tree-font-size-value {
+#arctree-font-size-value {
   width: 2em;
   display: inline-block;
   /*background-color: #e5e5e5;
@@ -102,11 +102,11 @@
   padding: 2px;
 }
 
-#arc-tree-file {
+#arctree-file {
   margin: 10px 5px;
 }
 
-#arc-tree-file-label {
+#arctree-file-label {
   font-weight: 700;
 }
 
@@ -114,52 +114,56 @@
 /* Thx to https://codepen.io/bisserof/pen/nrMveb */
 /* Core Tree Styles */
 .arc-object {
-  color: var(--arc-tree-object-color);
+  color: var(--arctree-object-color);
 }
 
-.arc-tree {
+.arctree {
   margin: 0px;
   padding: 20px;
   border: 1px solid #a6a6a6;
   border-radius: 0.3em;
 }
 
-.arc-tree ul {
+.arctree ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.arc-tree li {
+.arctree li {
   list-style-type: none;
 }
 
-.arc-tree input {
+.arctree input {
   position: absolute;
   clip-path: inset(0 0 0 0);
 }
 
-.arc-tree input ~ ul {
+.arctree input ~ ul {
   display: none;
 }
 
-.arc-tree input:checked ~ ul {
+.arctree input:checked ~ ul {
   display: block;
 }
 
 /* Tree rows */
-.arc-tree li {
+.arctree li {
   line-height: 1.2;
   position: relative;
   padding: 0 0 1em 1em;
 }
 
-.arc-tree ul li {
+.arctree ul li {
   padding: 1em 0 0 1em;
 }
 
-.arc-tree > li:last-child {
+.arctree > li:last-child {
   padding-bottom: 0;
+}
+
+.arctree-dummy-node {
+  color: #777;
 }
 
 /* Tree labels */
@@ -179,7 +183,7 @@ label.tree-label:hover {
 
 /* Tree expanded icon */
 label.tree-label:before {
-  background: var(--arc-tree-ball-expanded-color);
+  background: var(--arctree-ball-expanded-color);
   color: #fff;
   position: relative;
   z-index: 1;
@@ -196,18 +200,18 @@ label.tree-label:before {
 /* Tree collapsed icon */
 :checked ~ label.tree-label:before {
   content: "–";
-  background: var(--arc-tree-ball-collapsed-color);
+  background: var(--arctree-ball-collapsed-color);
 }
 
 /* Tree branches */
-.arc-tree li:before {
+.arctree li:before {
   position: absolute;
   top: 0;
   bottom: 0;
   left: -0.5em;
   display: block;
   width: 0;
-  border-left: 1px solid var(--arc-tree-curves);
+  border-left: 1px solid var(--arctree-curves);
   content: "";
   /* background-color: #f3dd37; */
 }
@@ -219,8 +223,8 @@ label.tree-label:before {
   display: block;
   height: 0.5em;
   width: 1em;
-  border-bottom: 1px solid var(--arc-tree-curves); /* line extending right to the child, at child level */
-  border-left: 1px solid var(--arc-tree-curves); /* vertical segment at bottom of the drop & curving into above lines */
+  border-bottom: 1px solid var(--arctree-curves); /* line extending right to the child, at child level */
+  border-left: 1px solid var(--arctree-curves); /* vertical segment at bottom of the drop & curving into above lines */
   border-radius: 0 0 0 0.3em;
   content: "";
   /* background-color: #48c1fe; */
@@ -232,8 +236,8 @@ label.tree-label:after {
 
 :checked ~ label.tree-label:after {
   border-radius: 0 0.3em 0 0;
-  border-top: 1px solid var(--arc-tree-curves); /* line extending right from + - marker */
-  border-right: 1px solid var(--arc-tree-curves); /* initial drop, from above line */
+  border-top: 1px solid var(--arctree-curves); /* line extending right from + - marker */
+  border-right: 1px solid var(--arctree-curves); /* initial drop, from above line */
   border-bottom: 0;
   border-left: 0;
   bottom: 0;
@@ -241,11 +245,11 @@ label.tree-label:after {
   height: auto;
 }
 
-.arc-tree li:last-child:before {
+.arctree li:last-child:before {
   height: 1em;
   bottom: auto;
 }
 
-.arc-tree > li:last-child:before {
+.arctree > li:last-child:before {
   display: none;
 }

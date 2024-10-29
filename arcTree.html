@@ -8,14 +8,14 @@
     <title>Arc Tree</title>
 
     <!-- link rel="icon" type="image/x-icon" href="./logo.jpg" / -->
-    <link rel="stylesheet" href="./arc-tree.css" />
-    <script defer src="./arc-tree.js"></script>
+    <link rel="stylesheet" href="./arcTree.css" />
+    <script defer src="./arcTree.js"></script>
     <script defer src="./purify.min.js"></script>
   </head>
   <body>
-    <div id="arc-tree-container">
-      <div id="arc-tree-options">
-        <div>Tree Options:<br /></div>
+    <div id="arctree-container">
+      <div id="arctree-options">
+        <div>ArcTree Options:<br /></div>
         <input
           type="button"
           value="Collapse Leafs"
@@ -43,8 +43,8 @@
         />
 
         <div>
-          <label title="Font size in em's" id="arc-tree-font-size-label">
-            Font size: <span id="arc-tree-font-size-value"></span> &nbsp;
+          <label title="Font size in em's" id="arctree-font-size-label">
+            Font size: <span id="arctree-font-size-value"></span> &nbsp;
 
             <input
               type="range"
@@ -52,7 +52,7 @@
               min="0.5"
               value="1"
               max="5"
-              id="arc-tree-font-size"
+              id="arctree-font-size"
               list="step-list"
               oninput="setFontSize(this)"
             />
@@ -68,16 +68,16 @@
       </div>
 
       <label title="Select a JSON file to view">
-        <span id="arc-tree-file-label">JSON file:</span>
+        <span id="arctree-file-label">JSON file:</span>
         <input
           type="file"
           onChange="fileChange(this.files[0])"
           accept=".json"
-          id="arc-tree-file"
+          id="arctree-file"
         />
       </label>
 
-      <ul id="unordered-arc-tree" class="arc-tree"></ul>
+      <ul id="unordered-arctree" class="arctree"></ul>
     </div>
   </body>
 </html>

@@ -5,8 +5,8 @@ const Verbose = 2;
 document.addEventListener("DOMContentLoaded", function () {
   if (Verbose > 1) console.clear();
   //if (Verbose>1) console.log("DOM fully loaded and parsed");
-  setFontSize(document.querySelector("#arc-tree-font-size"));
-  document.getElementById("arc-tree-file").value = "";
+  setFontSize(document.querySelector("#arctree-font-size"));
+  document.getElementById("arctree-file").value = "";
 });
 
 
@@ -17,9 +17,9 @@ function setFontSize(el) {
   if (!isNumber(fontSize) || fontSize < 0.5 || fontSize > 5) {
     fontSize = 1;
   }
-  document.querySelector(".arc-tree").style.fontSize = fontSize + 'em';
-  document.querySelector("#arc-tree-font-size-value").innerHTML = fontSize;
-  document.querySelector("#arc-tree-font-size").value = fontSize;
+  document.querySelector(".arctree").style.fontSize = fontSize + 'em';
+  document.querySelector("#arctree-font-size-value").innerHTML = fontSize;
+  document.querySelector("#arctree-font-size").value = fontSize;
 }
 
 function isNumber(n) {
@@ -45,7 +45,7 @@ function showLeafs() {
 }
 
 function collapseTree() {
-  let checkboxes = document.querySelector(".arc-tree").getElementsByTagName("input");
+  let checkboxes = document.querySelector(".arctree").getElementsByTagName("input");
   let len = checkboxes.length;
   for (let i = 0; i < len; i++) {
     checkboxes[i].checked = "";
@@ -54,7 +54,7 @@ function collapseTree() {
 }
 
 function expandTree() {
-  let checkboxes = document.querySelector(".arc-tree").getElementsByTagName("input");
+  let checkboxes = document.querySelector(".arctree").getElementsByTagName("input");
   let len = checkboxes.length;
   for (let i = 0; i < len; i++) {
     checkboxes[i].checked = "checked";
@@ -85,8 +85,8 @@ async function fileChange(file) {
         alert("Invalid JSON: " + json);
         return;
       }
-      clearArcTree(document.getElementById('unordered-arc-tree'));
-      buildArcTree(json, document.getElementById('unordered-arc-tree'));
+      clearArcTree(document.getElementById('unordered-arctree'));
+      buildArcTree(json, document.getElementById('unordered-arctree'));
     }
   ).catch(
     error => console.error("Error reading file: " + error)
@@ -171,14 +171,14 @@ if (!valid) {
  
 /// Unused!
 function downloadJson() {
-  let json = document.getElementById('unordered-arc-tree').innerHTML;
+  let json = document.getElementById('unordered-arctree').innerHTML;
   let blob = new Blob([json], { type: "text/plain;charset=utf-8" });
   saveAs(blob, "arcTree.json");
 }
  
 /// Unused!
 function uploadJson() {
-  let file = document.getElementById('arc-tree-file').files[0];
+  let file = document.getElementById('arctree-file').files[0];
   if (file) {
     fileChange(file);
   }
@@ -190,6 +190,7 @@ function uploadJson() {
 /// Tree Creation functionality =====================
 const ExpandedByDefault = true;
 let ListItemHTML = "";
+let DummyUrl = ""; // track current dummy URL, if any
 let ListLog = ""; // Limits debugging output to a single line
 
 function clearArcTree(treeElement) {
@@ -200,6 +201,13 @@ function clearArcTree(treeElement) {
 
 /// <summary>
 /// Recurse through an 'obj' JSON object & build up an HTML unordered list item (& listLog for debugging)
+
+/// As we loop thru the JSON object, we get a bit of info at a time.
+/// In order to write a complete block of HTML composed of these bits, we 
+/// stash the bits in ListItemHTML.
+/// Likewise to write only one line into the debug log (not lots of bits) we cache debug info into ListLog.
+/// When we finish looping through the JSON node, we write the entire HTML block for that node.
+
 /// Parameters:
 /// 'obj' is the JSON object to be processed, of the following form:
 /***
@@ -216,13 +224,13 @@ function clearArcTree(treeElement) {
       }
 ***/
 /// 'treeElement' is the HTML element to which the unordered list is to be appended
-/// 'url' is this this segment of the arc-tree's full or cumulative (N.B., see above option) url.
+/// 'url' is this this segment of the arctree's full or cumulative (N.B., see above option) url.
 ///   Initial url should be blank (""): the code pulls the base/home URL from the JSON.
 /// </summary>
 
 
-function buildArcTree(obj, treeElement, url = "") {
-  if (Verbose) console.log("%c" + "buildArcTree: " + obj?.toString() + " url: '" + url + "'", "color:DarkOrchid;font-weight:bold;");
+function buildArcTree(obj, treeElement, parentUrl = "") {
+  if (Verbose) console.log("%c" + "buildArcTree: " + obj?.toString() + " url: '" + parentUrl + "'", "color:DarkOrchid;font-weight:bold;");
 
   let childUrl = "";
   for (let key in obj) {
@@ -241,7 +249,7 @@ function buildArcTree(obj, treeElement, url = "") {
     }
 
     else if (obj[key] instanceof Object) {
-      childUrl = url;
+      childUrl = parentUrl;
       if (Verbose > 1) console.log("Skipping Object Wrapper: " + key);
     }
 
@@ -255,49 +263,74 @@ function buildArcTree(obj, treeElement, url = "") {
         case "url":
           // autodetect whether json is using relative or full urls
           //if (Verbose>1) console.log("obj[key]: '" + obj[key] + "' url: '" + url + "'");
-          if (obj[key].startsWith("http")) {
+          if (obj[key].toLowerCase().startsWith("http")) {
             childUrl = obj[key];
           } else {
-            childUrl = url + obj[key];
+            childUrl = parentUrl + obj[key];
           }
           if (Verbose > 1) console.log("Child URL: " + childUrl + ";");
 
-          /*
-          // if childUrl is 1 or more nodes deeper than the parent URL, then add a dummy list item in the HTML unordered list to match the JSON structure
-          let parentParts = url.toLowerCase().split('/');
-          let childParts = childUrl.toLowerCase().split('/');
-          if (Verbose > 1) console.log("parentParts: " + parentParts + " childParts: " + childParts);
- 
-          debugger;
- 
-          for (let j = 0; j < childParts.length; j++) {
-            if (j >= parentParts.length) {
-              continue;
-            }
-            if (parentParts[j] != childParts[j]) {
-              if (Verbose > 1) console.log("Mismatch: " + parentParts[j] + " != " + childParts[j]);
-              break;
-            }
- 
-            for (let i = 0; i < childParts.length; i++) {
-              let dummyLI = document.createElement('li');
-              dummyLI.className = "dummy";
-              treeElement.appendChild(dummyLI);
-            }
-          }
- 
- 
-          for (let j = 0; j < (childParts.length - parentParts.length); j++) {
-            // Create a dummy UL for each missing parent part
-            let dummyUrl = childParts.slice(0, parentParts.length + j).join('/');
-            let dummyUL = document.createElement('ul');
-            dummyUL.className = "dummyPage";
-            debugger;
-            DumpCaches(obj[key], treeElement, dummyUrl);
-            treeElement.appendChild(dummyUL);
-          }
-        */
+          if (parentUrl != "") {
+            // parentUrl=="" indicates 1st time thru. childUrl should have 3 parts: protocol, domain, and path.
+            // Don't check for dummy in this case.
+            console.assert(childUrl.toLowerCase().startsWith("http"), "childUrl: " + childUrl + " didn't start with http!!!");
 
+            if (DummyUrl != "") {
+              // current node is a 'dummy' URL
+              // parentUrl = DummyUrl;
+            }
+
+            // Add a dummy list item if the URLs in the JSON structure 'jump' more than one level so the user can collapse/expand every level.
+            // e.g., from from https://ibm.com/ to https://ibm.com/child1/child2 -- without going thru https://ibm.com/child1 first.
+            let parentParts = parentUrl.toLowerCase().split('/');
+            let childParts = childUrl.toLowerCase().split('/');
+            let dummyParts = DummyUrl.toLowerCase().split('/');
+            if (Verbose > 1) console.log("parentParts: " + parentParts + " childParts: " + childParts + " dummyParts: " + dummyParts);
+
+            let iCommonPart = 0; // index of the common part of parent & child URLs
+
+            while (iCommonPart < parentParts.length && iCommonPart < childParts.length && parentParts[iCommonPart] == childParts[iCommonPart]) {
+              iCommonPart++;
+            }
+
+            let iDummyPart = 0; // index of the common part of parent & child URLs
+
+            while (iDummyPart < dummyParts.length && iDummyPart < childParts.length && dummyParts[iDummyPart] == childParts[iDummyPart]) {
+              iDummyPart++;
+            }
+
+            if (Verbose > 1) console.log("iCommonPart: " + iCommonPart + "; parentParts + 1: " + parentParts + 1 + "; iDummy < childParts.length: " + childParts.length + "; iDummy: " + iDummyPart);
+
+            debugger;
+
+            if (iCommonPart >= iDummyPart) {
+              if (Verbose > 2) console.log("Use parentURL: " + parentUrl + " to " + childUrl);
+            } else {
+              if (Verbose > 2) console.log("Use dummyURL needed: " + DummyUrl + " to " + child);
+              parentParts = dummyParts;
+
+            }
+
+            for (let iDummy = parentParts.length + 1; iDummy < childParts.length; iDummy++) {
+              if (Verbose) console.log("Dummy #" + (childParts.length - (parentParts.length + 1)) + " needed: " + parentUrl + " to " + childUrl);
+
+              // Dummy HTML = Title + Url + Meta
+              let dummyHTML = "<span class='arctree-dummy-node'><b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
+              DummyUrl = childParts.slice(0, iDummy).join('/');
+              dummyHTML += " (<a href='" + DummyUrl + "' target='_blank' >" + DummyUrl + "</a>): ";
+              dummyHTML += "<i>Artificial intermediate node, URL may not exist & get 404 errors</i></span>";
+              let dummyLog = "Dummy HTML: " + dummyHTML + ";";
+
+              //debugger;
+
+              treeElement = WriteUlListItem(obj[key], treeElement, dummyHTML, dummyLog);
+              if (Verbose > 1) console.log("Adding dummy: " + dummyHTML);
+              if (Verbose) console.groupEnd();
+
+              //childUrl = DummyUrl;
+              //parentUrl = DummyUrl;
+            }
+          }
 
 
           ListLog += "Child URL: " + childUrl + ";";
@@ -317,8 +350,10 @@ function buildArcTree(obj, treeElement, url = "") {
     if (obj[key] instanceof Object) {
 
       if (ListItemHTML != "") {
-        // Dump caches
-        treeElement = WriteUlListItem(obj[key], treeElement);
+        // Dump caches before processing children
+        treeElement = WriteUlListItem(obj[key], treeElement, ListItemHTML, ListLog);
+        ListItemHTML = "";
+        ListLog = "";
       }
 
       let newUL = treeElement;
@@ -337,7 +372,7 @@ function buildArcTree(obj, treeElement, url = "") {
       buildArcTree(obj[key], newUL, childUrl);
       if (Verbose) console.groupEnd();
 
-      childUrl = url;
+      childUrl = parentUrl;
     }
   } // continue loop thru any remaining keys
 }
@@ -349,11 +384,10 @@ function buildArcTree(obj, treeElement, url = "") {
 /// iterating though a JSON node, and can now output the entire 
 /// HTML block for that node.
 /// </summary>
-function WriteUlListItem(objKey, treeElement) {
+function WriteUlListItem(objKey, treeElement, listItemHTML, listLog) {
   if (Verbose > 1) console.log("Emit caches...");
   // Output list item we've been building up before processing children
-  if (Verbose) console.log("log: " + ListLog);
-  ListLog = "";
+  if (Verbose) console.log("log: " + listLog);
 
   let uniqueID = Math.floor(Math.random() * 1000000).toString();
   let newLI = document.createElement('li');
@@ -366,17 +400,16 @@ function WriteUlListItem(objKey, treeElement) {
   let newLabel = document.createElement('label');
   newLabel.htmlFor = "c" + uniqueID;
   newLabel.className = "tree-label";
-  newLabel.innerHTML = DOMPurify.sanitize(ListItemHTML);  //NOTE: Assume untrusted JSON
+  newLabel.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Assume untrusted JSON
 
   // Or if last leaf (no children), add a leaf class
   if (Object.keys(objKey).length == 0) {
     newLI.className = "leaf";
     let newSpan = document.createElement('span');
     newSpan.className = "tree-label";
-    newSpan.innerHTML = DOMPurify.sanitize(ListItemHTML);  //NOTE: Assume untrusted JSON
+    newSpan.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Assume untrusted JSON
     newLI.appendChild(newSpan);
   }
-  ListItemHTML = "";
   treeElement.appendChild(newLI);
 
   if (Object.keys(objKey).length > 0) {

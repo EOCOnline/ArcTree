@@ -83,18 +83,18 @@ JSON files are expected to be formatted as:
 - Additional attributes (akin to "title", "meta", or "url") can be included for
   each node, but will be denoted with "[Unknown node (" in the tree display.
   Adding new cases to the `switch` statement in `function buildArcTree` in the
-  `arc-tree.js` file should be pretty trivial though. See the code comment.
+  `arcTree.js` file should be pretty trivial though. See the code comment.
 - Adding additional arrays will require some coding, but the current code should
   provide some hints to make it 'fairly' painless.
 - Only the initial call to `buildArcTree()` should ignore the optional URL
   value. If so, the first url in the JSON file will be automatically selected as
-  the is hardcoded in the `arc-tree.js` file! Search for
+  the is hardcoded in the `arcTree.js` file! Search for
   `baseUrl = "https:\\fema.gov"` in the function `fileChange()` & manually
   change this for your situation.
 
 ## Debugging
 
-- By default, the `arc-tree.js` file has `let verbose = false;` at the top.
+- By default, the `arcTree.js` file has `let verbose = false;` at the top.
   Change this to `true` if you wish to track output and see errors, warnings and
   verbose information. These can be viewed by opening any browser's developers
   tools (`F12` by convention) and then it's 'console window'.

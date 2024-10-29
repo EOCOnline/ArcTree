@@ -5,22 +5,34 @@
     "children": [
         {
             "title": "Emergency Managers",
-            "url": "/emergency-managers",
+            "url": "/emergency-managers/practitioners",
             "meta": "Emergency Manager information",
             "children": [
                 {
-                    "title": "Tools for Practitioners (en)",
-                    "url": "/practitioners",
-                    "meta": "Tools for Practitioners (en)",
+                    "title": "For flood Practitioners",
+                    "url": "/water-based/floods",
+                    "meta": "Tools for Flood Practitioners",
                     "children": []
                 },
                 {
-                    "title": "Tools for Politicians (en)",
-                    "url": "/jumpedURL/Politicians",
-                    "meta": "Tools for Politicians",
+                    "title": "For landslide Practitioners",
+                    "url": "/water-based/landslide",
+                    "meta": "Tools for landslide Practitioners",
                     "children": []
                 }
             ]
+        },
+        {
+            "title": "For earthquake Practitioners",
+            "url": "/earthquake/major",
+            "meta": "Tools for major earthquake Practitioners",
+            "children": []
+        },
+        {
+            "title": "For hurricane Practitioners",
+            "url": "/weather/hurricane/major",
+            "meta": "Tools for hurricane Practitioners",
+            "children": []
         }
     ]
 }
