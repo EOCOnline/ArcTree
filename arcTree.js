@@ -191,6 +191,7 @@ function uploadJson() {
 const ExpandedByDefault = true;
 let ListItemHTML = "";
 let DummyUrl = ""; // track current dummy URL, if any
+let DummyTreeElement = "";
 let ListLog = ""; // Limits debugging output to a single line
 
 function clearArcTree(treeElement) {
@@ -234,7 +235,7 @@ function buildArcTree(obj, treeElement, parentUrl = "") {
 
   let childUrl = "";
   for (let key in obj) {
-    if (Verbose > 1) console.log("processing: " + key.toString());
+    if (Verbose > 1) console.log("processing: '" + key.toString() + "' = '" + obj[key] + "'");
 
     if (obj[key] instanceof Array) {
 
@@ -254,7 +255,7 @@ function buildArcTree(obj, treeElement, parentUrl = "") {
     }
 
     else {
-      if (Verbose > 1) console.log("item(" + key + '): ' + obj[key]);
+      //if (Verbose > 1) console.log("item(" + key + '): ' + obj[key]);
       ListLog += key + '=' + obj[key] + ";  ";
 
       switch (key) {
@@ -280,7 +281,7 @@ function buildArcTree(obj, treeElement, parentUrl = "") {
               // parentUrl = DummyUrl;
             }
 
-            // Add a dummy list item if the URLs in the JSON structure 'jump' more than one level so the user can collapse/expand every level.
+            // Add a dummy list item if the URLs in the JSON structure's path 'jump' more than one level so the user can collapse/expand every level.
             // e.g., from from https://ibm.com/ to https://ibm.com/child1/child2 -- without going thru https://ibm.com/child1 first.
             let parentParts = parentUrl.toLowerCase().split('/');
             let childParts = childUrl.toLowerCase().split('/');
@@ -299,27 +300,30 @@ function buildArcTree(obj, treeElement, parentUrl = "") {
               iDummyPart++;
             }
 
-            if (Verbose > 1) console.log("iCommonPart: " + iCommonPart + "; parentParts + 1: " + parentParts + 1 + "; iDummy < childParts.length: " + childParts.length + "; iDummy: " + iDummyPart);
+            if (Verbose > 1) console.log("iCommonPart: " + iCommonPart + "; parentParts: " + parentParts + "; childParts.length: " + childParts.length + "; iDummy: " + iDummyPart);
 
-            debugger;
+            //debugger;
 
             if (iCommonPart >= iDummyPart) {
-              if (Verbose > 2) console.log("Use parentURL: " + parentUrl + " to " + childUrl);
+              if (Verbose > 1) console.log("Use parentURL: " + parentUrl + " to " + childUrl);
             } else {
-              if (Verbose > 2) console.log("Use dummyURL needed: " + DummyUrl + " to " + child);
+              if (Verbose > 1) console.log("Need to create a dummyURL! " + DummyUrl + "[" + iDummyPart + "] parts to " + childUrl);
               parentParts = dummyParts;
-
+              debugger;
+              treeElement = DummyTreeElement;
             }
 
             for (let iDummy = parentParts.length + 1; iDummy < childParts.length; iDummy++) {
+              // Create a dummy node to allow collapsing/expanding every level of the tree!
               if (Verbose) console.log("Dummy #" + (childParts.length - (parentParts.length + 1)) + " needed: " + parentUrl + " to " + childUrl);
 
-              // Dummy HTML = Title + Url + Meta
+              // dummy HTML = Title + Url + Meta
               let dummyHTML = "<span class='arctree-dummy-node'><b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
               DummyUrl = childParts.slice(0, iDummy).join('/');
               dummyHTML += " (<a href='" + DummyUrl + "' target='_blank' >" + DummyUrl + "</a>): ";
               dummyHTML += "<i>Artificial intermediate node, URL may not exist & get 404 errors</i></span>";
               let dummyLog = "Dummy HTML: " + dummyHTML + ";";
+              DummyTreeElement = treeElement; // Keep track of original treeElement, so siblings can also be added to it.
 
               //debugger;
 
@@ -327,11 +331,12 @@ function buildArcTree(obj, treeElement, parentUrl = "") {
               if (Verbose > 1) console.log("Adding dummy: " + dummyHTML);
               if (Verbose) console.groupEnd();
 
-              //childUrl = DummyUrl;
-              //parentUrl = DummyUrl;
-            }
+              // childUrl = DummyUrl;
+              // parentUrl = DummyUrl;
+              // DummyUrl is set above, so we can use it to create the next dummy node
+              // DummyTreeElement also set above so siblings can also be added to it.
+            } // done creating any needed dummy nodes...
           }
-
 
           ListLog += "Child URL: " + childUrl + ";";
           ListItemHTML += " (<a href='" + childUrl + "' target='_blank' rel='external' >" + childUrl + "</a>): ";
@@ -400,7 +405,7 @@ function WriteUlListItem(objKey, treeElement, listItemHTML, listLog) {
   let newLabel = document.createElement('label');
   newLabel.htmlFor = "c" + uniqueID;
   newLabel.className = "tree-label";
-  newLabel.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Assume untrusted JSON
+  newLabel.innerHTML = (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(listItemHTML) : listItemHTML;  //NOTE: Assume untrusted JSON
 
   // Or if last leaf (no children), add a leaf class
   if (Object.keys(objKey).length == 0) {
