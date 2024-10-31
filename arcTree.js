@@ -1,6 +1,6 @@
 // or ESM/TypeScript import
 //import Ajv from "ajv"
-const Verbose = 2;
+const Verbose = 2; // 0 = none, 1 = some, 2 = all
 
 document.addEventListener("DOMContentLoaded", function () {
     if (Verbose > 1) console.clear();
@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
     setFontSize(document.querySelector("#arctree-font-size"));
     document.getElementById("arctree-file").value = "";
 });
-
 
 
 /// 'Tree Options' functionality =====================
@@ -215,7 +214,9 @@ function processTypicalKey(obj, key, treeElement, parentUrl, childUrl) {
             ListItemHTML += "<b>" + obj[key] + "</b>";
             break;
         case "url":
-            processUrlKey(obj, key, treeElement, parentUrl, childUrl);
+            calcChildUrl(obj, key, treeElement, parentUrl, childUrl);
+            ListLog += "Child URL: " + childUrl + ";";
+            ListItemHTML += " (<a href='" + childUrl + "' target='_blank' rel='external' >" + childUrl + "</a>): ";
             break;
         case "meta":
             ListItemHTML += "<i> " + obj[key] + "</i>";
@@ -225,12 +226,11 @@ function processTypicalKey(obj, key, treeElement, parentUrl, childUrl) {
     }
 }
 
-function processUrlKey(obj, key, treeElement, parentUrl, childUrl) {
+function calcChildUrl(obj, key, treeElement, parentUrl, childUrl) {
+    // full Urls start with HTTP, relative Urls don't
     if (obj[key].toLowerCase().startsWith("http")) {
-        // full Urls
         childUrl = obj[key];
     } else {
-        // relative Urls
         childUrl = parentUrl + obj[key];
     }
     if (Verbose > 1) console.log("Child URL: " + childUrl + ";");
@@ -239,13 +239,14 @@ function processUrlKey(obj, key, treeElement, parentUrl, childUrl) {
     if (parentUrl != "") {
         handleDummyUrl(treeElement, parentUrl, childUrl);
     }
-    ListLog += "Child URL: " + childUrl + ";";
-    ListItemHTML += " (<a href='" + childUrl + "' target='_blank' rel='external' >" + childUrl + "</a>): ";
 }
 
-/// If child URL has 2 or more path segments than the parent URL, create intervening 'dummy' node(s).
-// e.g., https://ibm.com/ to https://ibm.com/child1/child2 -- without going thru https://ibm.com/child1 first.
-/// These artificial nodes allow a user to expand/collapse those parts of the list cleanly.
+/**
+ * If child URL has 2 or more path segments than the parent URL, create intervening 'dummy' node(s).
+ * e.g., with parent https://ibm.com/ & child https://ibm.com/child1/child2 we'll need 
+ * to create an intervening https://ibm.com/child1 node.
+ * These artificial nodes allow a user to expand/collapse those parts of the list cleanly.
+ */
 function handleDummyUrl(treeElement, parentUrl, childUrl) {
     console.assert(childUrl.toLowerCase().startsWith("http"), "childUrl: " + childUrl + " didn't start with http!!!");
     // DummyUrl != "" indicates last emitted list item/node is a 'dummy' URL 
@@ -309,14 +310,12 @@ function processObjectKey(obj, key, treeElement, parentUrl, childUrl) {
     childUrl = parentUrl;
 }
 
-if (Verbose > 1) console.log("Emit caches...");
-// Output list item we've been building up before processing children
-if (Verbose) console.log("log: " + listLog);
-
-let newLI = document.createElement('li');
-
 /**
- * Writes a list item to the tree element.
+ * Reading from the JSON file gets one bit of info sequentially. 
+ * We want to write a complete block of HTML composed of these bits.
+ * So we have been building up parts of the HTML block while 
+ * iterating though a JSON node, and can now output the entire 
+ * HTML block for that node.
  * 
  * @param {Object} objKey - The current JSON node being processed.
  * @param {HTMLElement} treeElement - The HTML element to which the list item will be appended.
@@ -324,6 +323,9 @@ let newLI = document.createElement('li');
  * @returns {HTMLElement} - The updated tree element.
  */
 function WriteUlListItem(objKey, treeElement, listItemHTML, listLog) {
+    if (Verbose > 1) console.log("Emit caches...");
+    if (Verbose) console.log("log: " + listLog);
+
     let uniqueID = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.floor(Math.random() * 1000000).toString();
     let newInput = document.createElement('input');
     newInput.id = "c" + uniqueID;
@@ -336,11 +338,12 @@ function WriteUlListItem(objKey, treeElement, listItemHTML, listLog) {
     newLabel.innerHTML = (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(listItemHTML) : listItemHTML;  //NOTE: Assume untrusted JSON
 
     // Or if last leaf (no children), add a leaf class
+    let newLI = document.createElement('li');
     if (Object.keys(objKey).length == 0) {
         newLI.className = "leaf";
         let newSpan = document.createElement('span');
         newSpan.className = "tree-label";
-        newSpan.innerHTML = DOMPurify.sanitize(listItemHTML);  //NOTE: Assume untrusted JSON
+        newSpan.innerHTML = (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(listItemHTML) : listItemHTML  //NOTE: Assume untrusted JSON
         newLI.appendChild(newSpan);
     }
     treeElement.appendChild(newLI);
