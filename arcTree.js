@@ -174,8 +174,6 @@ const data2 = {
 
 /// Tree Creation functionality =====================
 const ExpandedByDefault = "checked";
-//let nodeHTML.html = "";
-//let nodeHTML.log = "";
 let DummyUrl = "";
 let DummyTreeElement = "";
 
@@ -197,8 +195,7 @@ function buildArcTree(obj, treeElement, parentUrl = "") {
         treeElement: treeElement,
         parentUrl: parentUrl,
         childUrl: "",
-        html: "",
-        log: ""
+        html: ""
     }
     for (let key in obj) {
         if (Verbose > 1) console.log("processing: '" + key.toString() + "' = '" + obj[key] + "'");
@@ -226,14 +223,12 @@ function processKey(obj, key, nodeHTML) {
 }
 
 function processTypicalKey(obj, key, nodeHTML) {
-    nodeHTML.log += key + '=' + obj[key] + ";  ";
     switch (key) {
         case "title":
             nodeHTML.html += "<b>" + obj[key] + "</b>";
             break;
         case "url":
-            calcChildUrl(obj, key, nodeHTML);
-            nodeHTML.log += "Child URL: " + nodeHTML.childUrl + ";";
+            calcChildUrl(obj[key], nodeHTML);
             nodeHTML.html += " (<a href='" + nodeHTML.childUrl + "' target='_blank' rel='external' >" + nodeHTML.childUrl + "</a>): ";
             break;
         case "meta":
@@ -244,18 +239,18 @@ function processTypicalKey(obj, key, nodeHTML) {
     }
 }
 
-function calcChildUrl(obj, key, nodeHTML) {
+function calcChildUrl(objKey, nodeHTML) {
     // full Urls start with HTTP, relative Urls don't
-    if (obj[key].toLowerCase().startsWith("http")) {
-        nodeHTML.childUrl = obj[key];
+    if (objKey.toLowerCase().startsWith("http")) {
+        nodeHTML.childUrl = objKey;
     } else {
-        nodeHTML.childUrl = nodeHTML.parentUrl + obj[key];
+        nodeHTML.childUrl = nodeHTML.parentUrl + objKey;
     }
     if (Verbose > 1) console.log("Child URL: " + nodeHTML.childUrl + ";");
 
     // No dummy node check for initial node: parentUrl==""
     if (nodeHTML.parentUrl != "") {
-        handleDummyUrl(nodeHTML);
+        handleDummyUrl(objKey, nodeHTML);
     }
 }
 
@@ -265,14 +260,14 @@ function calcChildUrl(obj, key, nodeHTML) {
  * to create an intervening https://ibm.com/child1 node.
  * These artificial nodes allow a user to expand/collapse those parts of the list cleanly.
  */
-function handleDummyUrl(nodeHTML) {
+function handleDummyUrl(objKey, nodeHTML) {
     console.assert(nodeHTML.childUrl.toLowerCase().startsWith("http"), "childUrl: " + nodeHTML.childUrl + " doesn't start with http!");
     // DummyUrl != "" indicates last emitted list item/node is a 'dummy' URL 
 
     let parentParts = nodeHTML.parentUrl.toLowerCase().split('/');
     let childParts = nodeHTML.childUrl.toLowerCase().split('/');
     let dummyParts = DummyUrl.toLowerCase().split('/');
-    if (Verbose > 1) console.log("parentParts: " + parentParts + "\n childParts: " + childParts + "\n dummyParts: " + dummyParts);
+    if (Verbose > 1) console.log(parentParts.length + " parentParts: " + parentParts + "\n" + childParts.length + " childParts: " + childParts + "\n" + dummyParts.length + " dummyParts: " + dummyParts);
 
     let iParentPart = 0; // index of the common (highest common denominator) part of parent & child URLs
     while (iParentPart < parentParts.length && iParentPart < childParts.length
@@ -285,47 +280,40 @@ function handleDummyUrl(nodeHTML) {
         && dummyParts[iDummyPart] == childParts[iDummyPart]) {
         iDummyPart++;
     }
-    if (Verbose > 1) console.log("iParentPart: " + iParentPart + "; parentParts: " + parentParts + "; childParts: " + childParts + "; iDummy: " + iDummyPart + "; DummyParts = " + dummyParts);
+    if (Verbose > 1) console.log("iParentPart: " + iParentPart + "; iDummyPart: " + iDummyPart);
 
     if (iParentPart >= iDummyPart) {
         if (Verbose > 1) console.log("Use parentURL: " + nodeHTML.parentUrl + " to " + nodeHTML.childUrl);
     } else {
         if (Verbose > 1) console.log("Need to create a dummyURL! " + DummyUrl + "[" + iDummyPart + "] parts to " + nodeHTML.childUrl);
         parentParts = dummyParts;
-        treeElement = DummyTreeElement;
+        if (Verbose) console.warn("setting node treeElement to Dummy treeElement: " + DummyTreeElement + ";");
+        nodeHTML.treeElement = DummyTreeElement;
     }
 
     for (let iDummy = parentParts.length + 1; iDummy < childParts.length; iDummy++) {
         // Create a Dummy Node
-        if (Verbose) console.log("Dummy #" + (childParts.length - (parentParts.length + 1)) + " needed: " + nodeHTML.parentUrl + " to " + nodeHTML.childUrl);
+        if (Verbose > 1) console.log("Dummy #" + (childParts.length - (parentParts.length + 1)) + " needed: " + nodeHTML.parentUrl + " to " + nodeHTML.childUrl);
 
-        let dummyHTML = "<span class='arctree-dummy-node'><b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
+        let dummyHTML = "<span class='arctree-label arctree-dummy-node'><b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
         DummyUrl = childParts.slice(0, iDummy).join('/');
         dummyHTML += " (<a href='" + DummyUrl + "' target='_blank' >" + DummyUrl + "</a>): ";
         dummyHTML += "<i>Artificial intermediate node: if URL doesn't exist, you may get 404 errors</i></span>";
-        let dummyLog = "Dummy HTML: " + dummyHTML + "; ";
+        //let dummyLog = "Dummy HTML: " + dummyHTML + "; ";
+        if (Verbose > 1) console.warn("storing node treeElement into Dummy treeElement: " + nodeHTML.treeElement + ";");
         DummyTreeElement = nodeHTML.treeElement; // Store original treeElement so siblings can be added to it
 
         if (Verbose) console.group('Dummy node');
-        nodeHTML.treeElement = WriteUlListItem({}, nodeHTML.treeElement, dummyHTML, dummyLog);
-        if (Verbose > 1) console.log("Added dummy: " + dummyHTML);
-        /* NOTE: Needed???
-        dummyHTML = "";
-        dummyLog = "";
-        */
+        nodeHTML.treeElement = WriteUlListItem(objKey, nodeHTML.treeElement, dummyHTML);
         if (Verbose) console.groupEnd();
     }
 }
 
-
-
 function processObjectKey(obj, key, nodeHTML) {
-    // debugger;
     if (nodeHTML.html != "") {
         // Dump current node before processing children
-        nodeHTML.treeElement = WriteUlListItem(obj[key], nodeHTML.treeElement, nodeHTML.html, nodeHTML.log);
+        nodeHTML.treeElement = WriteUlListItem(obj[key], nodeHTML.treeElement, nodeHTML.html);
         nodeHTML.html = "";
-        nodeHTML.log = "";
     }
 
     let newUL = nodeHTML.treeElement;
@@ -336,7 +324,7 @@ function processObjectKey(obj, key, nodeHTML) {
     } else if (obj[key] instanceof Object) {
         // no need to create a new UL for non-arrays
         // newUL = treeElement;
-        // newUL.className = "arc-object";
+        // newUL.className = "arctree-object";
     }
 
     // Recurse into children
@@ -350,39 +338,37 @@ function processObjectKey(obj, key, nodeHTML) {
 
 /**
  * Reading from the JSON file gets one bit of info sequentially. 
- * We want to write a complete block of HTML (& 1 bebug line) 
- * composed of these bits.
+ * We want to write a complete block of HTML composed of these bits.
  * So we have been building up parts of the HTML block while 
  * iterating though a JSON node, and can now output the entire 
  * HTML block for that node.
  * 
  * @param {Object} objKey - The current JSON node being processed.
  * @param {HTMLElement} treeElement - The HTML element to which the list item will be appended.
- * @param {string} listLog - The log information for debugging.
  * @returns {HTMLElement} - The new tree element.
  */
-function WriteUlListItem(objKey, treeElement, listItemHTML, listLog) {
-    if (Verbose > 1) console.log("\n\nEmit caches...");
-    if (Verbose) console.log("log: " + listLog);
+
+function WriteUlListItem(objKey, treeElement, listItemHTML) {
+    if (Verbose > 1) console.log("%c\nEmit caches using " + objKey + " to " + treeElement, "color:DarkGreen;font-weight:bold;");
+    if (Verbose) console.error("Emitting HTML: " + listItemHTML);
 
     let uniqueID = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.floor(Math.random() * 1000000).toString();
     let newInput = document.createElement('input');
-    newInput.id = "arc" + uniqueID;
+    newInput.id = "arctree" + uniqueID;
     newInput.type = "checkbox";
     newInput.setAttribute('checked', ExpandedByDefault);
 
     let newLabel = document.createElement('label');
-    newLabel.htmlFor = "arc" + DOMPurify.sanitize(uniqueID);
-    newLabel.className = "tree-label";
+    newLabel.htmlFor = "arctree" + DOMPurify.sanitize(uniqueID);
+    newLabel.className = "arctree-label";
     newLabel.innerHTML = (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(listItemHTML) : listItemHTML;  //NOTE: Assume untrusted JSON
 
     // Or if last leaf (no children), add a leaf class
-    // debugger;
     let newLI = document.createElement('li');
     if (Object.keys(objKey).length == 0) {
         newLI.className = "leaf";
         let newSpan = document.createElement('span');
-        newSpan.className = "tree-label";
+        newSpan.className = "arctree-label";
         newSpan.innerHTML = (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(listItemHTML) : listItemHTML  //NOTE: Assume untrusted JSON
         newLI.appendChild(newSpan);
     }

@@ -113,7 +113,7 @@
 /* ================================= */
 /* Thx to https://codepen.io/bisserof/pen/nrMveb */
 /* Core Tree Styles */
-.arc-object {
+.arctree -object {
   color: var(--arctree-object-color);
 }
 
@@ -167,22 +167,22 @@
 }
 
 /* Tree labels */
-.tree-label {
+.arctree-label {
   position: relative;
   display: inline-block;
   background: #fff;
 }
 
-label.tree-label {
+label.arctree-label {
   cursor: pointer;
 }
 
-label.tree-label:hover {
+label.arctree-label:hover {
   color: #666;
 }
 
 /* Tree expanded icon */
-label.tree-label:before {
+label.arctree-label:before {
   background: var(--arctree-ball-expanded-color);
   color: #fff;
   position: relative;
@@ -198,7 +198,7 @@ label.tree-label:before {
 }
 
 /* Tree collapsed icon */
-:checked ~ label.tree-label:before {
+:checked ~ label.arctree-label:before {
   content: "–";
   background: var(--arctree-ball-collapsed-color);
 }
@@ -216,7 +216,7 @@ label.tree-label:before {
   /* background-color: #f3dd37; */
 }
 
-.tree-label:after {
+.arctree-label:after {
   position: absolute;
   top: 0;
   left: -1.5em;
@@ -230,11 +230,11 @@ label.tree-label:before {
   /* background-color: #48c1fe; */
 }
 
-label.tree-label:after {
+label.arctree-label:after {
   border-bottom: 0;
 }
 
-:checked ~ label.tree-label:after {
+:checked ~ label.arctree-label:after {
   border-radius: 0 0.3em 0 0;
   border-top: 1px solid var(--arctree-curves); /* line extending right from + - marker */
   border-right: 1px solid var(--arctree-curves); /* initial drop, from above line */
