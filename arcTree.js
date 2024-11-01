@@ -103,6 +103,7 @@ async function fileChange(file) {
         }
     ).catch(error => {
         console.error("Error reading JSON file: " + error.message);
+        alert("Error reading JSON file (" + file.name + "): \n" + error.message);
     });
 }
 
@@ -297,11 +298,11 @@ function handleDummyUrl(objKey, nodeHTML) {
 function createDummyListItem(objKey, nodeHTML, childParts, parentParts, iDummy) {
     if (Verbose > 1) console.log("Creating Dummy #" + (childParts.length - (parentParts.length + 1)) + " between " + nodeHTML.parentUrl + " & " + nodeHTML.childUrl);
 
-    //let dummyHTML = "<span class='arctree-label arctree-dummy-node'><b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
-    let dummyHTML = "<b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
+    let dummyHTML = "<span class='arctree-label arctree-dummy-node'><b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
+    //let dummyHTML = "<b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
     DummyUrl = childParts.slice(0, iDummy).join('/');
     dummyHTML += " (<a href='" + DummyUrl + "' target='_blank' rel='external'>" + DummyUrl + "</a>): ";
-    dummyHTML += "<i>Artificial intermediate node (if URL doesn't exist, you may get 404 errors)</i>";
+    dummyHTML += "<i>Artificial intermediate node (The URL may not exist, leading to 404-type errors)</i>";
 
     if (Verbose) console.group('Dummy node');
     nodeHTML.treeElement = AppendLlListItem(objKey, nodeHTML.treeElement, dummyHTML);
@@ -319,7 +320,10 @@ function createDummyListItem(objKey, nodeHTML, childParts, parentParts, iDummy) 
         // newUL.className = "array"; // or branch - if desired for styling
         //nodeHTML.treeElement = nodeHTML.treeElement.appendChild(newUL);
     }
-
+    newUL = document.createElement('ul');
+    newUL.className = "arctree-dummy-ul";
+    nodeHTML.treeElement = nodeHTML.treeElement.appendChild(newUL);
+    DummyTreeElement = nodeHTML.treeElement
 }
 
 function processObjectKey(objKey, nodeHTML) {
