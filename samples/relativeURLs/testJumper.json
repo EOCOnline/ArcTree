@@ -4,34 +4,34 @@
     "meta": "FEMA Home",
     "children": [
         {
-            "title": "Emergency Managers",
+            "title": "Emergency Manager Practitioners",
             "url": "/emergency-managers/practitioners",
             "meta": "Emergency Manager information",
             "children": [
                 {
-                    "title": "For flood Practitioners",
+                    "title": "For Flood Practitioners",
                     "url": "/water-based/floods",
                     "meta": "Tools for Flood Practitioners",
                     "children": []
                 },
                 {
-                    "title": "For landslide Practitioners",
+                    "title": "For Landslide Practitioners",
                     "url": "/water-based/landslide",
-                    "meta": "Tools for landslide Practitioners",
+                    "meta": "Tools for Landslide Practitioners",
                     "children": []
                 }
             ]
         },
         {
-            "title": "For earthquake Practitioners",
+            "title": "For Earthquake Practitioners",
             "url": "/earthquake/major",
-            "meta": "Tools for major earthquake Practitioners",
+            "meta": "Tools for major Earthquake Practitioners",
             "children": []
         },
         {
-            "title": "For hurricane Practitioners",
+            "title": "For Hurricane Practitioners",
             "url": "/weather/hurricane/major",
-            "meta": "Tools for hurricane Practitioners",
+            "meta": "Tools for major Hurricane Practitioners",
             "children": []
         }
     ]

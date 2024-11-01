@@ -1,6 +1,6 @@
 // or ESM/TypeScript import
 //import Ajv from "ajv"
-const Verbose = 2; // 0 = none, 1 = some, 2 = all
+const Verbose = 1; // 0 = none, 1 = some, 2 = most, 3 = all
 
 document.addEventListener("DOMContentLoaded", function () {
     if (Verbose > 1) console.clear();
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-/// 'Tree Options' functionality =====================
+/// 'ArcTree Options' functionality =====================
 function updateFontSize(el) {
     let fontSize = el.value;
     if (!isValidNumber(fontSize) || !isValidFontSize(fontSize)) {
@@ -26,7 +26,7 @@ function isValidNumber(n) {
 }
 
 function isValidFontSize(fontSize) {
-    return fontSize < 0.5 || fontSize > 5;
+    return fontSize >= 0.5 && fontSize <= 5;
 }
 
 function collapseLeafs() {
@@ -103,6 +103,7 @@ async function fileChange(file) {
         }
     ).catch(error => {
         console.error("Error reading JSON file: " + error.message);
+        alert("Error reading JSON file (" + file.name + "): \n" + error.message);
     });
 }
 
@@ -179,11 +180,6 @@ let DummyTreeElement = "";
 
 function clearArcTree(treeElement) {
     treeElement.innerHTML = '';
-
-    // TODO: Need to clear Dummy too?
-    //DummyUrl = "";
-    //DummyTreeElement = "";
-
     if (Verbose > 1) console.log("Cleared arctree.");
 }
 
@@ -263,14 +259,11 @@ function calcChildUrl(objKey, nodeHTML) {
  */
 function handleDummyUrl(objKey, nodeHTML) {
     console.assert(nodeHTML.childUrl.toLowerCase().startsWith("http"), "childUrl: " + nodeHTML.childUrl + " doesn't start with http!");
-    // DummyUrl != "" indicates last emitted list item/node is a 'dummy' URL 
 
-    let parentParts = nodeHTML.parentUrl.toLowerCase().split('/');
     let childParts = nodeHTML.childUrl.toLowerCase().split('/');
-    let dummyParts = DummyUrl.toLowerCase().split('/');
-    if (Verbose > 1) console.log(parentParts.length + " parentParts: " + parentParts + "\n" + childParts.length + " childParts: " + childParts + "\n" + dummyParts.length + " dummyParts: " + dummyParts);  // NOTE: Remove me!!!
 
     let iParentPart = 0; // index of the common (highest common denominator) part of parent & child URLs
+    let parentParts = nodeHTML.parentUrl.toLowerCase().split('/');
     while (iParentPart < parentParts.length && iParentPart < childParts.length
         && parentParts[iParentPart] == childParts[iParentPart]) {
         iParentPart++;
@@ -278,64 +271,67 @@ function handleDummyUrl(objKey, nodeHTML) {
     iParentPart--; // back up to last common part
 
     let iDummyPart = 0; // index of the common part of dummy & child URLs
-    while (iDummyPart < dummyParts.length && iDummyPart < childParts.length
-        && dummyParts[iDummyPart] == childParts[iDummyPart]) {
-        iDummyPart++;
+    let dummyParts = [];
+    if (DummyUrl != "") {
+        // Last emitted list item had a 'dummy' URL. Is it a better starting point vs. the parentURL
+        dummyParts = DummyUrl.toLowerCase().split('/');
+        while (iDummyPart < dummyParts.length && iDummyPart < childParts.length
+            && dummyParts[iDummyPart] == childParts[iDummyPart]) {
+            iDummyPart++;
+        }
+        iDummyPart--; // back up to last common part    
     }
-    iDummyPart--; // back up to last common part
-    if (Verbose > 1) console.log("iParentPart: " + iParentPart + "; iDummyPart: " + iDummyPart);  // NOTE: Remove me!!!
 
+    if (Verbose > 2) console.log(parentParts.length + " parentParts: " + parentParts + "\n" + childParts.length + " childParts: " + childParts + "\n" + dummyParts.length + " dummyParts: " + dummyParts);
     if (iParentPart >= iDummyPart) {
-        if (Verbose > 1) console.log("dummyURL will use parentURL: " + nodeHTML.parentUrl + " to " + nodeHTML.childUrl);
+        if (Verbose > 2) console.log("Using parentURL: " + nodeHTML.parentUrl + " to build " + nodeHTML.childUrl);
     } else {
-
-
-
-        if (Verbose > 1) console.log("Need to create a dummyURL between " + dummyParts[iDummyPart] + " and " + nodeHTML.childUrl);
-
-
-
+        if (Verbose > 2) console.log("Using (last) dummyURL: " + dummyParts[iDummyPart] + " and " + nodeHTML.childUrl);
         parentParts = dummyParts;
-
-
-        if (Verbose) console.warn("setting node treeElement to Dummy treeElement: " + DummyTreeElement + ";");  // NOTE: Remove me!!!
-
-        //AppendUlListItem({}, DummyTreeElement, "<span>Dummy tree element is here!</span>"); // NOTE: Remove me!!!
-        //AppendUlListItem({}, nodeHTML.treeElement, "<span>nodeHTML.treeElement is here!</span>"); // NOTE: Remove me!!!
-
         nodeHTML.treeElement = DummyTreeElement;
-
-
     }
 
-    for (let iDummy = parentParts.length + 1; iDummy < childParts.length; iDummy++) {
-        // Create a Dummy Node
-        if (Verbose > 1) console.log("Dummy #" + (childParts.length - (parentParts.length + 1)) + " needed between " + nodeHTML.parentUrl + " & " + nodeHTML.childUrl);
+    for (let iDummy = parentParts.length + 1; iDummy < childParts.length; iDummy++)
+        createDummyListItem(objKey, nodeHTML, childParts, parentParts, iDummy);
+}
 
-        let dummyHTML = "<span class='arctree-label arctree-dummy-node'><b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
-        DummyUrl = childParts.slice(0, iDummy).join('/');
-        dummyHTML += " (<a href='" + DummyUrl + "' target='_blank' >" + DummyUrl + "</a>): ";
-        dummyHTML += "<i>Artificial intermediate node: if URL doesn't exist, you may get 404 errors</i></span>";
+function createDummyListItem(objKey, nodeHTML, childParts, parentParts, iDummy) {
+    if (Verbose > 1) console.log("Creating Dummy #" + (childParts.length - (parentParts.length + 1)) + " between " + nodeHTML.parentUrl + " & " + nodeHTML.childUrl);
 
+    // arctree-dummy-node must be 1st class to override arctree-label (or chg css)
+    let dummyHTML = "<span class='arctree-dummy-node arctree-label'><b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
+    //let dummyHTML = "<b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
+    DummyUrl = childParts.slice(0, iDummy).join('/');
+    dummyHTML += " (<a href='" + DummyUrl + "' target='_blank' rel='external'>" + DummyUrl + "</a>): ";
+    dummyHTML += "<i>Artificial intermediate node (The URL may not exist, leading to 404-type errors)</i>";
 
-        if (Verbose > 1) console.warn("storing node treeElement into Dummy treeElement: " + nodeHTML.treeElement + ";");  // NOTE: Remove me!!!
-        //DummyTreeElement = nodeHTML.treeElement; // Store original treeElement so siblings can be added to it
-        //AppendUlListItem({}, nodeHTML.treeElement, "<span>nodeHTML.treeElement #2 is here!</span>"); // NOTE: Remove me!!!
+    if (Verbose) console.group('Dummy node');
+    nodeHTML.treeElement = AppendLlListItem(objKey, nodeHTML.treeElement, dummyHTML);
+    DummyTreeElement = nodeHTML.treeElement; // Store original treeElement so siblings can be added to it
+    // if (Verbose > 2) AppendLlListItem({}, nodeHTML.treeElement, "<span>subsequent DummyTreeElements will attach here</span>");
+    if (Verbose) console.groupEnd();
 
+    //newUL = document.createElement('ul');
+    //nodeHTML.treeElement = nodeHTML.treeElement.appendChild(newUL);
 
-
-        if (Verbose) console.group('Dummy node');
-        nodeHTML.treeElement = AppendUlListItem(objKey, nodeHTML.treeElement, dummyHTML);
-        DummyTreeElement = nodeHTML.treeElement; // Store original treeElement so siblings can be added to it
-        //AppendUlListItem({}, nodeHTML.treeElement, "<span>nodeHTML.treeElement #2 is here!</span>"); // NOTE: Remove me!!!
-        if (Verbose) console.groupEnd();
+    //let newUL = nodeHTML.treeElement;
+    if (objKey instanceof Array) {
+        console.error("\n\n\nArray should not have children: " + objKey);
+        //newUL = document.createElement('ul');
+        // newUL.className = "array"; // or branch - if desired for styling
+        //nodeHTML.treeElement = nodeHTML.treeElement.appendChild(newUL);
     }
+    newUL = document.createElement('ul');
+    newUL.className = "arctree-dummy-ul";
+    nodeHTML.treeElement = nodeHTML.treeElement.appendChild(newUL);
+    DummyTreeElement = nodeHTML.treeElement
 }
 
 function processObjectKey(objKey, nodeHTML) {
     if (nodeHTML.html != "") {
         // Dump current node before processing children
-        nodeHTML.treeElement = AppendUlListItem(objKey, nodeHTML.treeElement, nodeHTML.html);
+        //nodeHTML.html = "<span class='arctree-label'>" + nodeHTML.html + "</span>";
+        nodeHTML.treeElement = AppendLlListItem(objKey, nodeHTML.treeElement, nodeHTML.html);
         nodeHTML.html = "";
     }
 
@@ -356,6 +352,7 @@ function processObjectKey(objKey, nodeHTML) {
     if (Verbose) console.groupEnd();
 
     nodeHTML.childUrl = nodeHTML.parentUrl;
+    // TODO: Is this needed somewhere?: DummyTreeElement = "";
 }
 
 
@@ -372,17 +369,17 @@ function processObjectKey(objKey, nodeHTML) {
  * @returns {HTMLElement} - The new tree element.
  */
 
-function AppendUlListItem(objKey, treeElement, listItemHTML) {
+function AppendLlListItem(objKey, treeElement, listItemHTML) {
     if (Verbose) console.log("%c\nEmit " + objKey + " with HTML: " + listItemHTML, "color:DarkGreen;font-weight:bold;");
 
     let uniqueID = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.floor(Math.random() * 1000000).toString();
     let newInput = document.createElement('input');
-    newInput.id = "arctree" + uniqueID;
+    newInput.id = "arctree_" + uniqueID;
     newInput.type = "checkbox";
     newInput.setAttribute('checked', ExpandedByDefault);
 
     let newLabel = document.createElement('label');
-    newLabel.htmlFor = "arctree" + uniqueID;
+    newLabel.htmlFor = "arctree_" + uniqueID;
     newLabel.className = "arctree-label";
     newLabel.innerHTML = (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(listItemHTML) : listItemHTML;  //NOTE: Assume untrusted JSON
 
