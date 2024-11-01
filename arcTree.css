@@ -161,46 +161,6 @@
   padding-bottom: 0;
 }
 
-.arctree-dummy-node {
-  color: var(--arctree-dummy-color);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  background-color: #ebebeb;
-  opacity: 0.7;
-}
-
-.arctree-dummy-node a:link {
-  color: #844163;
-  text-decoration: none;
-}
-
-.arctree-dummy-node a:visited {
-  color: #5c203e;
-  text-decoration: none;
-}
-.arctree-dummy-node a:hover {
-  color: #844163;
-  font-weight: bold;
-  /*text-decoration: none;*/
-}
-.arctree-dummy-node a:active {
-  color: #c43a7f;
-  font-weight: bold;
-  /*text-decoration: none;*/
-}
-
-.arctree-dummy-ul {
-  list-style-type: none;
-  color: var(--arctree-dummy-color);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  /*background-color: #b6d671;*/
-}
-
-.arctree-object {
-  color: var(--arctree-object-color);
-}
-
 /* Tree labels */
 .arctree-label {
   position: relative;
@@ -292,4 +252,44 @@ label.arctree-label:after {
 .arctree > li:last-child:before {
   display: none;
   /* background-color: #48c1fe;*/
+}
+
+.arctree-dummy-node {
+  color: var(--arctree-dummy-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: #ebebeb;
+  opacity: 0.8;
+}
+
+.arctree-dummy-node a:link {
+  color: #844163;
+  text-decoration: none;
+}
+
+.arctree-dummy-node a:visited {
+  color: #5c203e;
+  text-decoration: none;
+}
+.arctree-dummy-node a:hover {
+  color: #844163;
+  font-weight: bold;
+  /*text-decoration: none;*/
+}
+.arctree-dummy-node a:active {
+  color: #c43a7f;
+  font-weight: bold;
+  /*text-decoration: none;*/
+}
+
+.arctree-dummy-ul {
+  list-style-type: none;
+  color: var(--arctree-dummy-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  /*background-color: #b6d671;*/
+}
+
+.arctree-object {
+  color: var(--arctree-object-color);
 }

@@ -352,6 +352,7 @@ function processObjectKey(objKey, nodeHTML) {
     if (Verbose) console.groupEnd();
 
     nodeHTML.childUrl = nodeHTML.parentUrl;
+    // TODO: Is this needed somewhere?: DummyTreeElement = "";
 }
 
 
