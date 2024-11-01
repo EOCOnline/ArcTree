@@ -275,21 +275,37 @@ function handleDummyUrl(objKey, nodeHTML) {
         && parentParts[iParentPart] == childParts[iParentPart]) {
         iParentPart++;
     }
+    iParentPart--; // back up to last common part
 
     let iDummyPart = 0; // index of the common part of dummy & child URLs
     while (iDummyPart < dummyParts.length && iDummyPart < childParts.length
         && dummyParts[iDummyPart] == childParts[iDummyPart]) {
         iDummyPart++;
     }
+    iDummyPart--; // back up to last common part
     if (Verbose > 1) console.log("iParentPart: " + iParentPart + "; iDummyPart: " + iDummyPart);  // NOTE: Remove me!!!
 
     if (iParentPart >= iDummyPart) {
         if (Verbose > 1) console.log("dummyURL will use parentURL: " + nodeHTML.parentUrl + " to " + nodeHTML.childUrl);
     } else {
-        if (Verbose > 1) console.log("Need to create a dummyURL between " + DummyUrl[iDummyPart] + " and " + nodeHTML.childUrl);
+
+
+
+        if (Verbose > 1) console.log("Need to create a dummyURL between " + dummyParts[iDummyPart] + " and " + nodeHTML.childUrl);
+
+
+
         parentParts = dummyParts;
+
+
         if (Verbose) console.warn("setting node treeElement to Dummy treeElement: " + DummyTreeElement + ";");  // NOTE: Remove me!!!
+
+        //AppendUlListItem({}, DummyTreeElement, "<span>Dummy tree element is here!</span>"); // NOTE: Remove me!!!
+        //AppendUlListItem({}, nodeHTML.treeElement, "<span>nodeHTML.treeElement is here!</span>"); // NOTE: Remove me!!!
+
         nodeHTML.treeElement = DummyTreeElement;
+
+
     }
 
     for (let iDummy = parentParts.length + 1; iDummy < childParts.length; iDummy++) {
@@ -300,20 +316,26 @@ function handleDummyUrl(objKey, nodeHTML) {
         DummyUrl = childParts.slice(0, iDummy).join('/');
         dummyHTML += " (<a href='" + DummyUrl + "' target='_blank' >" + DummyUrl + "</a>): ";
         dummyHTML += "<i>Artificial intermediate node: if URL doesn't exist, you may get 404 errors</i></span>";
+
+
         if (Verbose > 1) console.warn("storing node treeElement into Dummy treeElement: " + nodeHTML.treeElement + ";");  // NOTE: Remove me!!!
-        DummyTreeElement = nodeHTML.treeElement; // Store original treeElement so siblings can be added to it
+        //DummyTreeElement = nodeHTML.treeElement; // Store original treeElement so siblings can be added to it
+        //AppendUlListItem({}, nodeHTML.treeElement, "<span>nodeHTML.treeElement #2 is here!</span>"); // NOTE: Remove me!!!
+
+
 
         if (Verbose) console.group('Dummy node');
-        nodeHTML.treeElement = WriteUlListItem(objKey, nodeHTML.treeElement, dummyHTML);
+        nodeHTML.treeElement = AppendUlListItem(objKey, nodeHTML.treeElement, dummyHTML);
+        DummyTreeElement = nodeHTML.treeElement; // Store original treeElement so siblings can be added to it
+        //AppendUlListItem({}, nodeHTML.treeElement, "<span>nodeHTML.treeElement #2 is here!</span>"); // NOTE: Remove me!!!
         if (Verbose) console.groupEnd();
     }
 }
 
 function processObjectKey(objKey, nodeHTML) {
-
     if (nodeHTML.html != "") {
         // Dump current node before processing children
-        nodeHTML.treeElement = WriteUlListItem(objKey, nodeHTML.treeElement, nodeHTML.html);
+        nodeHTML.treeElement = AppendUlListItem(objKey, nodeHTML.treeElement, nodeHTML.html);
         nodeHTML.html = "";
     }
 
@@ -344,12 +366,13 @@ function processObjectKey(objKey, nodeHTML) {
  * iterating though a JSON node, and can now output the entire 
  * HTML block for that node.
  * 
- * @param {Object} objKey - The current JSON node being processed.
+ * @param {Object} objKey - The current JSON node being processed. Use {} to just generate a leaf node.
  * @param {HTMLElement} treeElement - The HTML element to which the list item will be appended.
+ * @param {string} listItemHTML - The HTML block to be appended to the treeElement.
  * @returns {HTMLElement} - The new tree element.
  */
 
-function WriteUlListItem(objKey, treeElement, listItemHTML) {
+function AppendUlListItem(objKey, treeElement, listItemHTML) {
     if (Verbose) console.log("%c\nEmit " + objKey + " with HTML: " + listItemHTML, "color:DarkGreen;font-weight:bold;");
 
     let uniqueID = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.floor(Math.random() * 1000000).toString();
@@ -359,7 +382,7 @@ function WriteUlListItem(objKey, treeElement, listItemHTML) {
     newInput.setAttribute('checked', ExpandedByDefault);
 
     let newLabel = document.createElement('label');
-    newLabel.htmlFor = "arctree" + DOMPurify.sanitize(uniqueID);
+    newLabel.htmlFor = "arctree" + uniqueID;
     newLabel.className = "arctree-label";
     newLabel.innerHTML = (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(listItemHTML) : listItemHTML;  //NOTE: Assume untrusted JSON
 

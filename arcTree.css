@@ -3,6 +3,7 @@
   --arctree-ball-collapsed-color: rgb(1, 108, 90);
   --arctree-ball-expanded-color: rgb(106, 53, 171);
   --arctree-object-color: #3625b9;
+  --arctree-dummy-color: #777;
 }
 
 #arctree-container {
@@ -163,7 +164,7 @@
 }
 
 .arctree-dummy-node {
-  color: #777;
+  color: var (--arctree-dummy-color);
 }
 
 /* Tree labels */

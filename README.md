@@ -17,8 +17,8 @@ collapsing or expanding the whole tree:
 ![Options Dialog for ArcTree](imgs/ArcTreeOptions.png)
 
 - **Collapse Leafs** will temporarily hide list nodes which have a blank
-  children node, i.e., `children:[]`. If the `children` node is missing, things
-  work, but they aren't considered leafs & won't be collapsed.
+  children node, i.e., `children:[]`. The `children` node is required even if
+  empty.
 - **Show Leafs** just re-expands all nodes if any were hidden.
 - **Collapse Tree** will collapse _all_ nodes in the entire tree, allowing users
   to gradually expand only the nodes they wish.
@@ -73,8 +73,9 @@ JSON files are expected to be formatted as:
 - Try https://duckduckgo.com/?q=json+validator as a nice way to spot formatting
   errors.
 - When opened, JSON files are validated just by seeing they have success with
-  JSON.parse currently. In the future we may enable AJX validation which is more
-  sophisticated. Read more about it at: https://www.npmjs.com/package/ajv.
+  JSON.parse currently.
+- In the future we may enable AJX validation which is more sophisticated. Read
+  more about it at: https://www.npmjs.com/package/ajv.
 - The `children` node is essential, but can be an empty array (i.e., a leaf):
   `"children"=[]`
 
@@ -87,25 +88,22 @@ JSON files are expected to be formatted as:
 - Adding additional arrays will require some coding, but the current code should
   provide some hints to make it 'fairly' painless.
 - Only the initial call to `buildArcTree()` should ignore the optional URL
-  value. If so, the first url in the JSON file will be automatically selected as
-  the is hardcoded in the `arcTree.js` file! Search for
-  `baseUrl = "https:\\fema.gov"` in the function `fileChange()` & manually
-  change this for your situation.
+  value.
 
 ## Debugging
 
-- By default, the `arcTree.js` file has `let verbose = false;` at the top.
-  Change this to `true` if you wish to track output and see errors, warnings and
+- By default, the `arcTree.js` file has `let verbose = 0;` at the top. Change
+  this to `1` or '2' if you wish to track output and see errors, warnings &
   verbose information. These can be viewed by opening any browser's developers
-  tools (`F12` by convention) and then it's 'console window'.
+  tools (`F12` by convention) and then open it's 'console window'.
 
 ## License & Copyright
 
 This is released under the permissive MIT License. For details see
 ![License](LICENSE)
 
-Thanks to https://codepen.io/bisserof/pen/nrMveb for the nice formatting of the
-arcs! Their original sample provided the inspiration for this project.
+Thanks to https://codepen.io/bisserof/pen/nrMveb for the nice css formatting of
+the arcs! Their original sample provided the inspiration for this project.
 
 ©2024, https://eoc.online
 
