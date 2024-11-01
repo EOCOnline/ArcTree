@@ -367,7 +367,7 @@ function AppendLlListItem(objKey, treeElement, listItemHTML) {
 
     let uniqueID = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.floor(Math.random() * 1000000).toString();
     let newInput = document.createElement('input');
-    newInput.id = "arctree-" + uniqueID;
+    newInput.id = "arctree" + uniqueID;
     newInput.type = "checkbox";
     newInput.setAttribute('checked', ExpandedByDefault);
 

@@ -114,10 +114,6 @@
 /* ================================= */
 /* Thx to https://codepen.io/bisserof/pen/nrMveb */
 /* Core Tree Styles */
-.arctree -object {
-  color: var(--arctree-object-color);
-}
-
 .arctree {
   margin: 0px;
   padding: 20px;
@@ -165,6 +161,10 @@
 
 .arctree-dummy-node {
   color: var (--arctree-dummy-color);
+}
+
+.arctree-object {
+  color: var(--arctree-object-color);
 }
 
 /* Tree labels */

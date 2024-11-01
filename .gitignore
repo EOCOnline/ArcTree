@@ -1,0 +1,14 @@
+.dist
+.tmp
+.lock
+.sass-cache
+npm-debug.log
+node_modules/
+
+archived/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+.obsidian/workspace
