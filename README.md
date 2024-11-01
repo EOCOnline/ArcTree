@@ -92,10 +92,11 @@ JSON files are expected to be formatted as:
 
 ## Debugging
 
+- To view potential errors & warnings, open your browser's developers tools
+  (`F12` by convention) and then open it's 'console window'.
 - By default, the `arcTree.js` file has `let verbose = 0;` at the top. Change
-  this to `1` or '2' if you wish to track output and see errors, warnings &
-  verbose information. These can be viewed by opening any browser's developers
-  tools (`F12` by convention) and then open it's 'console window'.
+  this to `1`, `2`, or `3` to get progressively more verbose debugging
+  information in the console window.
 
 ## License & Copyright
 
