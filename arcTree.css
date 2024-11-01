@@ -3,7 +3,7 @@
   --arctree-ball-collapsed-color: rgb(1, 108, 90);
   --arctree-ball-expanded-color: rgb(106, 53, 171);
   --arctree-object-color: #3625b9;
-  --arctree-dummy-color: #777;
+  --arctree-dummy-color: rgb(129, 129, 129);
 }
 
 #arctree-container {
@@ -122,11 +122,13 @@
 }
 
 .arctree ul {
-  list-style-type: none;
+  /*list-style-type: none;*/
   padding: 0;
   margin: 0;
+  /*background-color: #f3dd37;*/
 }
 
+/* for long 1st node that goes several lines long */
 .arctree li {
   list-style-type: none;
 }
@@ -160,7 +162,39 @@
 }
 
 .arctree-dummy-node {
-  color: var (--arctree-dummy-color);
+  color: var(--arctree-dummy-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: #ebebeb;
+  opacity: 0.7;
+}
+
+.arctree-dummy-node a:link {
+  color: #844163;
+  text-decoration: none;
+}
+
+.arctree-dummy-node a:visited {
+  color: #5c203e;
+  text-decoration: none;
+}
+.arctree-dummy-node a:hover {
+  color: #844163;
+  font-weight: bold;
+  /*text-decoration: none;*/
+}
+.arctree-dummy-node a:active {
+  color: #c43a7f;
+  font-weight: bold;
+  /*text-decoration: none;*/
+}
+
+.arctree-dummy-ul {
+  list-style-type: none;
+  color: var(--arctree-dummy-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  /*background-color: #b6d671;*/
 }
 
 .arctree-object {
@@ -171,7 +205,9 @@
 .arctree-label {
   position: relative;
   display: inline-block;
+  /* HACK: white background just hides the checkmark boxes; still seen if font size < 1 */
   background: #fff;
+  color: #000;
 }
 
 label.arctree-label {
@@ -246,11 +282,14 @@ label.arctree-label:after {
   height: auto;
 }
 
+/* Tree leaves - needed??? */
 .arctree li:last-child:before {
   height: 1em;
   bottom: auto;
+  /*background-color: #48c1fe;*/
 }
 
 .arctree > li:last-child:before {
   display: none;
+  /* background-color: #48c1fe;*/
 }

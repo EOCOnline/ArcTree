@@ -298,7 +298,8 @@ function handleDummyUrl(objKey, nodeHTML) {
 function createDummyListItem(objKey, nodeHTML, childParts, parentParts, iDummy) {
     if (Verbose > 1) console.log("Creating Dummy #" + (childParts.length - (parentParts.length + 1)) + " between " + nodeHTML.parentUrl + " & " + nodeHTML.childUrl);
 
-    let dummyHTML = "<span class='arctree-label arctree-dummy-node'><b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
+    // arctree-dummy-node must be 1st class to override arctree-label (or chg css)
+    let dummyHTML = "<span class='arctree-dummy-node arctree-label'><b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
     //let dummyHTML = "<b>" + childParts.slice(iDummy - 1, iDummy) + "</b>";
     DummyUrl = childParts.slice(0, iDummy).join('/');
     dummyHTML += " (<a href='" + DummyUrl + "' target='_blank' rel='external'>" + DummyUrl + "</a>): ";
@@ -329,6 +330,7 @@ function createDummyListItem(objKey, nodeHTML, childParts, parentParts, iDummy) 
 function processObjectKey(objKey, nodeHTML) {
     if (nodeHTML.html != "") {
         // Dump current node before processing children
+        //nodeHTML.html = "<span class='arctree-label'>" + nodeHTML.html + "</span>";
         nodeHTML.treeElement = AppendLlListItem(objKey, nodeHTML.treeElement, nodeHTML.html);
         nodeHTML.html = "";
     }
@@ -371,12 +373,12 @@ function AppendLlListItem(objKey, treeElement, listItemHTML) {
 
     let uniqueID = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.floor(Math.random() * 1000000).toString();
     let newInput = document.createElement('input');
-    newInput.id = "arctree" + uniqueID;
+    newInput.id = "arctree_" + uniqueID;
     newInput.type = "checkbox";
     newInput.setAttribute('checked', ExpandedByDefault);
 
     let newLabel = document.createElement('label');
-    newLabel.htmlFor = "arctree" + uniqueID;
+    newLabel.htmlFor = "arctree_" + uniqueID;
     newLabel.className = "arctree-label";
     newLabel.innerHTML = (typeof DOMPurify !== 'undefined') ? DOMPurify.sanitize(listItemHTML) : listItemHTML;  //NOTE: Assume untrusted JSON
 
