@@ -21,6 +21,8 @@ can collapse irrelevant sections and focus on those parts of the tree they are
 most interested in. It should be readily adaptable for displaying other
 tree-like structures.
 
+Details at https://github.com/eoconline/arctree/
+
 ## ArcTree Options
 
 There are also some options at the top (if shown the the user) that allows
