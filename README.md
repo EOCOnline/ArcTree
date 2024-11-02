@@ -4,7 +4,7 @@
 > expand/collapse options &amp; variable font size.
 
 <figure>
-<figcaption><h3 style="text-align:center;">ArcTree in Action</h3></figcaption>
+<figcaption><h3 style="text-align:center !important;">ArcTree in Action</h3></figcaption>
   <a href="images/ArcTree.png" target="_blank">
   <img src="images/ArcTree.png"
   alt="ArcTree in Action; click for full-size image"
