@@ -4,13 +4,10 @@
 > expand/collapse options &amp; variable font size.
 
 <figure>
-<figcaption><h3 text-align="center">ArcTree in Action</h3></figcaption>
+<figcaption><h3 style="text-align:center;">ArcTree in Action</h3></figcaption>
   <a href="images/ArcTree.png" target="_blank">
   <img src="images/ArcTree.png"
   alt="ArcTree in Action; click for full-size image"
-  width="80%"/>
-    <img src="images/ArcTreeOptions.png"
-  alt="ArcTree Options dialog; click for full-size image"
   width="80%"/>
   </a>
 </figure>
@@ -41,7 +38,7 @@ There are also some options at the top (if shown the the user) that allows
 collapsing or expanding the whole tree:
 
 <figure>
-<figcaption><h3 text-align="center">ArcTree Options Dialog</h3></figcaption>
+<figcaption><h3 style="text-align:center;">ArcTree Options Dialog</h3></figcaption>
 <a href="images/ArcTreeOptions.png" target="_blank">
   <img src="images/ArcTreeOptions.png"
   alt="ArcTree Options dialog; click for full-size image"
@@ -116,7 +113,7 @@ JSON files are expected to be formatted as:
   only limited testing has been done on this aspect.)
 
 <figure>  
-<figcaption><h3 text-align="center">ArcTree Artificially Added Nodes</h3></figcaption>
+<figcaption><h3 style="text-align:center;">ArcTree Artificially Added Nodes</h3></figcaption>
 <a href="images/ArtificiallyAddedNodes.png" target="_blank">
   <img src="images/ArtificiallyAddedNodes.png"
   alt="ArcTree Artificially Added Nodes; click for full-size image"
