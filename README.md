@@ -93,7 +93,9 @@ JSON files are expected to be formatted as:
   URLs. If a url begins with "http", it is assumed to be a full url, otherwise
   the parent url will be prepended. (URL style can vary throughout the file, but
   only limited testing has been done on this aspect.)
+
   ![alt text](imgs/ArtificiallyAddedNodes.png)
+
 - ArcTree automatically inserts 'artificial' intermediate URLs if needed between
   parent & child URLs. For instance from https://www.sample.com/ to
   https://www.sample.com/child1/child2 -- _without going thru
