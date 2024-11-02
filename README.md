@@ -4,11 +4,13 @@
 > expand/collapse options &amp; variable font size.
 
 <figure>
+<figcaption><h3 text-align="center">ArcTree in Action</h3></figcaption>
   <img
   src="imgs/ArcTree.png"
-  alt="ArcTree in Action">
-  <figcaption><strong>ArcTree<strong> in Action</figcaption>
+  alt="ArcTree in Action"
+  width="80vw">
 </figure>
+<br/>
 
 ## Introduction to ArcTree
 
@@ -34,11 +36,13 @@ There are also some options at the top (if shown the the user) that allows
 collapsing or expanding the whole tree:
 
 <figure>
+<figcaption><h3 text-align="center">ArcTree Options Dialog</h3></figcaption>
   <img
   src="imgs/ArcTreeOptions.png"
-  alt="ArcTree Options dialog">
-  <figcaption><strong>ArcTree Options<strong> dialog</figcaption>
+  alt="ArcTree Options dialog"
+  width="80vw">
 </figure>
+<br/>
 
 - **Collapse Leafs** will temporarily hide list nodes which have a blank
   children node, i.e., `children:[]`. The `children` node is required even if
@@ -105,12 +109,14 @@ JSON files are expected to be formatted as:
   the parent url will be prepended. (URL style can vary throughout the file, but
   only limited testing has been done on this aspect.)
 
-<figure>
+<figure>  
+<figcaption><h3 text-align="center">ArcTree Artificially Added Nodes</h3></figcaption>
   <img
   src="imgs/ArtificiallyAddedNodes.png"
-  alt="ArcTree Artificially Added Nodes">
-  <figcaption><h2 align="center">ArcTree Artificially Added Nodes</h2></figcaption>
+  alt="ArcTree Artificially Added Nodes"
+  width="80vw">
 </figure>
+<br/>
 
 - ArcTree automatically inserts 'artificial' intermediate URLs if needed between
   parent & child URLs. For instance from https://www.sample.com/ to
