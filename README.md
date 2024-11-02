@@ -91,12 +91,14 @@ JSON files are expected to be formatted as:
   URLs. If a url begins with "http", it is assumed to be a full url, otherwise
   the parent url will be prepended. (URL style can vary throughout the file, but
   only limited testing has been done on this aspect.)
-- It should soon be possible to 'jump' up to a none-sequential URLs. For
-  instance from https://www.sample.com/ to https://www.sample.com/child1/child2
-  -- _without going thru https://www.sample.com/child1 first_. We handle this by
-  inserting a dummy list item with the missing intermediate child/parent page,
-  though the website may not have such a page, resulting in potential 404 errors
-  for the 'created' page.
+  ![alt text](imgs/ArtificiallyAddedNodes.png)
+- ArcTree automatically inserts 'artificial' intermediate URLs if needed between
+  parent & child URLs. For instance from https://www.sample.com/ to
+  https://www.sample.com/child1/child2 -- _without going thru
+  https://www.sample.com/child1 first_. (We handle this by inserting a dummy
+  list item with the missing intermediate child/parent page, though the website
+  may not have such a page, resulting in potential 404 errors for the 'created'
+  page.) This is done so you may collapse/expand the node as desired.
 - Try https://duckduckgo.com/?q=json+validator as a nice way to spot formatting
   errors.
 - When opened, JSON files are validated just by seeing they have success with
