@@ -3,14 +3,14 @@
 > Create nicely formatted, unordered list with arcs from JSON files with
 > expand/collapse options &amp; variable font size.
 
-<figure>
-<figcaption><h3 style="text-align:center !important;">ArcTree in Action</h3></figcaption>
+<div>
+<h3 style="text-align:center !important;">ArcTree in Action</h3>
   <a href="images/ArcTree.png" target="_blank">
   <img src="images/ArcTree.png"
   alt="ArcTree in Action; click for full-size image"
   width="80%"/>
   </a>
-</figure>
+</div>
 <br/>
 <br/>
 
