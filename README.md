@@ -32,10 +32,19 @@ tree-like structures.
 
 Details at https://github.com/eoconline/arctree/
 
+## Installation & Running
+
+After browsing to https://github.com/EOCOnline/ArcTree, you can use your git
+skills to clone the project locally or select the green `<> Code` button and
+download a zip file of the project to your computer. Unzip the file & then just
+open the ArcTree.html in your favorite browser. You should see a screen like
+that above. Select the `Browse` button to select a JSON file to display. (See
+the Samples section below for files known to work.)
+
 ## ArcTree Options
 
-There are also some options at the top (if shown the the user) that allows
-collapsing or expanding the whole tree:
+There are also some options at the top (if you opt to show to the user) that
+allows collapsing or expanding parts of the tree:
 
 <figure >
 <figcaption><h3 align="center">ArcTree Options Dialog</h3></figcaption>
@@ -63,17 +72,9 @@ collapsing or expanding the whole tree:
 ## Display Formatting
 
 Although not trivial, folks that know basic CSS can alter the symbols and colors
-used to display open, closed & artificial nodes. The CSS file contains some
-documentation as to what CSS affects various parts of the ArcTree.
-
-## Installation & Running
-
-After browsing to https://github.com/EOCOnline/ArcTree, you can use your git
-skills to clone the project locally or select the green `<> Code` button and
-download a zip file of the project to your computer. Unzip the file & then just
-open the ArcTree.html in your favorite browser. You should see a screen like
-that above. Select the `Browse` button to select a JSON file to display. (See
-the Samples section below for files known to work.)
+used to display open, closed & artificial nodes. The `arctree.css` file contains
+some documentation as to what CSS affects various parts of the ArcTree. Some
+obvious color choices are at the very top of the `arctree.css` file.
 
 ## Sample JSON Files
 
