@@ -9,6 +9,9 @@
   <img src="images/ArcTree.png"
   alt="ArcTree in Action; click for full-size image"
   width="80%"/>
+    <img src="images/ArcTreeOptions.png"
+  alt="ArcTree Options dialog; click for full-size image"
+  width="80%"/>
   </a>
 </figure>
 <br/>
