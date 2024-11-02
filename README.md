@@ -4,7 +4,7 @@
 > expand/collapse options &amp; variable font size.
 
 <div>
-<h3 style="text-align:center !important;">ArcTree in Action</h3>
+<h3 align="center">ArcTree in Action...</h3>
   <a href="images/ArcTree.png" target="_blank">
   <img src="images/ArcTree.png"
   alt="ArcTree in Action; click for full-size image"
@@ -38,7 +38,7 @@ There are also some options at the top (if shown the the user) that allows
 collapsing or expanding the whole tree:
 
 <figure>
-<figcaption><h3 style="text-align:center;">ArcTree Options Dialog</h3></figcaption>
+<figcaption><h3 align="center">ArcTree Options Dialog</h3></figcaption>
 <a href="images/ArcTreeOptions.png" target="_blank">
   <img src="images/ArcTreeOptions.png"
   alt="ArcTree Options dialog; click for full-size image"
