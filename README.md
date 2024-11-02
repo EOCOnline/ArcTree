@@ -6,12 +6,12 @@
 <figure>
 <figcaption><h3 text-align="center">ArcTree in Action</h3></figcaption>
   <a href="images/ArcTree.png" target="_blank">
-  <img
-  src="images/ArcTree.png"
+  <img src="images/ArcTree.png"
   alt="ArcTree in Action; click for full-size image"
-  width="60%">
+  width="80%"/>
   </a>
 </figure>
+<br/>
 <br/>
 
 ## Introduction to ArcTree
@@ -42,10 +42,10 @@ collapsing or expanding the whole tree:
 <a href="images/ArcTreeOptions.png" target="_blank">
   <img src="images/ArcTreeOptions.png"
   alt="ArcTree Options dialog; click for full-size image"
-  width="60%">
+  width="80%"/>
   </a>
 </figure>
-<br/>
+<br/><br/>
 
 - **Collapse Leafs** will temporarily hide list nodes which have a blank
   children node, i.e., `children:[]`. The `children` node is required even if
@@ -117,9 +117,10 @@ JSON files are expected to be formatted as:
 <a href="images/ArtificiallyAddedNodes.png" target="_blank">
   <img src="images/ArtificiallyAddedNodes.png"
   alt="ArcTree Artificially Added Nodes; click for full-size image"
-  width="60%">
+  width="60%"/>
   </a>
 </figure>
+<br/>
 <br/>
 
 - ArcTree automatically inserts 'artificial' intermediate URLs if needed between
