@@ -6,8 +6,8 @@
 <figure>
   <img
   src="imgs/ArcTree.png"
-  alt="__ArcTree__ in Action">
-  <figcaption>__ArcTree__ in Action</figcaption>
+  alt="ArcTree in Action">
+  <figcaption><strong>ArcTree<strong> in Action</figcaption>
 </figure>
 
 ## Introduction to ArcTree
@@ -32,7 +32,13 @@ Details at https://github.com/eoconline/arctree/
 
 There are also some options at the top (if shown the the user) that allows
 collapsing or expanding the whole tree:
-![__Options Dialog for ArcTree__](imgs/ArcTreeOptions.png)
+
+<figure>
+  <img
+  src="imgs/ArcTreeOptions.png"
+  alt="ArcTree Options dialog">
+  <figcaption><strong>ArcTree Options<strong> dialog</figcaption>
+</figure>
 
 - **Collapse Leafs** will temporarily hide list nodes which have a blank
   children node, i.e., `children:[]`. The `children` node is required even if
@@ -99,7 +105,12 @@ JSON files are expected to be formatted as:
   the parent url will be prepended. (URL style can vary throughout the file, but
   only limited testing has been done on this aspect.)
 
-  ![alt text](imgs/ArtificiallyAddedNodes.png)
+<figure>
+  <img
+  src="imgs/ArtificiallyAddedNodes.png"
+  alt="ArcTree Artificially Added Nodes">
+  <figcaption><h2 align="center">ArcTree Artificially Added Nodes</h2></figcaption>
+</figure>
 
 - ArcTree automatically inserts 'artificial' intermediate URLs if needed between
   parent & child URLs. For instance from https://www.sample.com/ to
