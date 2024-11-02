@@ -5,10 +5,12 @@
 
 <figure>
 <figcaption><h3 text-align="center">ArcTree in Action</h3></figcaption>
+  <a href="images/ArcTree.png" target="_blank">
   <img
-  src="imgs/ArcTree.png"
-  alt="ArcTree in Action"
-  width="80vw">
+  src="images/ArcTree.png"
+  alt="ArcTree in Action; click for full-size image"
+  width="60%">
+  </a>
 </figure>
 <br/>
 
@@ -37,10 +39,11 @@ collapsing or expanding the whole tree:
 
 <figure>
 <figcaption><h3 text-align="center">ArcTree Options Dialog</h3></figcaption>
-  <img
-  src="imgs/ArcTreeOptions.png"
-  alt="ArcTree Options dialog"
-  width="80vw">
+<a href="images/ArcTreeOptions.png" target="_blank">
+  <img src="images/ArcTreeOptions.png"
+  alt="ArcTree Options dialog; click for full-size image"
+  width="60%">
+  </a>
 </figure>
 <br/>
 
@@ -111,10 +114,11 @@ JSON files are expected to be formatted as:
 
 <figure>  
 <figcaption><h3 text-align="center">ArcTree Artificially Added Nodes</h3></figcaption>
-  <img
-  src="imgs/ArtificiallyAddedNodes.png"
-  alt="ArcTree Artificially Added Nodes"
-  width="80vw">
+<a href="images/ArtificiallyAddedNodes.png" target="_blank">
+  <img src="images/ArtificiallyAddedNodes.png"
+  alt="ArcTree Artificially Added Nodes; click for full-size image"
+  width="60%">
+  </a>
 </figure>
 <br/>
 
