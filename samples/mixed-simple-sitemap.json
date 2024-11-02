@@ -9,9 +9,9 @@
             "meta": "Spanish",
             "children": [
                 {
-                    "title": "Emergency Managers",
                     "url": "/emergency-managers",
-                    "meta": "Emergency Manager information in Spanish",
+                    "meta": "Emergency Manager information in Spanish - note keys are in not in order!",
+                    "title": "Emergency Managers",
                     "children": [
                         {
                             "title": "Tools for Practitioners",
