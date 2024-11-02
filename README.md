@@ -3,7 +3,12 @@
 > Create nicely formatted, unordered list with arcs from JSON files with
 > expand/collapse options &amp; variable font size.
 
-![__ArcTree__ in Action](imgs/ArcTree.png)
+<figure>
+  <img
+  src="imgs/ArcTree.png"
+  alt="__ArcTree__ in Action">
+  <figcaption>__ArcTree__ in Action</figcaption>
+</figure>
 
 ## Introduction to ArcTree
 
